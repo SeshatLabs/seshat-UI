@@ -5,4 +5,3 @@ export default function dbConnect (){
 
     mongoose.connect(CONSTANTS.dbconnectionURL);
 }
-

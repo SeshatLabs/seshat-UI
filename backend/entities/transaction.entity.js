@@ -1,21 +1,25 @@
 import mongoose from 'mongoose'
 
 const TransactionSchema = new mongoose.Schema({
-    _id: String,
+    id: String,
     block_id: String,
-    date: Date,
+    date: Number,
     status: String,
     num_events: Number,
-    // "meta": String,
+    meta: String || null,
     block_number: Number,
     confirmations: Number,
     events: [{
         id: String,
         transaction_id: String,
-        type: String,
+        type : {type: String},
         denomination: String,
+        destination: String,
         source: String,
+        destination: String,
         meta: {
+            contract: String,
+            type: {type: String},
             base_fee: Number,
             fee_burned: Number,
             gas_limit: Number,
@@ -24,21 +28,10 @@ const TransactionSchema = new mongoose.Schema({
         },
         date: Number,
         amount: Number,
-        decimals: Number
-        },
-        {
-        id: String,
-        transaction_id: String,
-        type: String,
-        denomination: String,
-        source: String,
-        destinatio: String,
-        // meta: null,
-        date: Number,
-        amount: Number,
-        decimals: Number
+        decimals: Number,
         }
-    ]
+    ],
+    next_page_token: String
 })
 
 module.exports = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema)
