@@ -1,16 +1,16 @@
 import dbConnect from '../../backend/helper/mongohelper'
-import { mainPipeline } from '../../backend/controler/pipelines/main.transaction.controler'
+import { contractPipeline } from '../../backend/controler/pipelines/main.contract.controler'
 
 
 export default async function handler (req, res) {
   const { method } = req
 
-  dbConnect()
+   dbConnect()
 
   switch (method) {
     case 'GET':
       try {
-        // mainPipeline()
+        contractPipeline()
         res.status(200).json({ success: true })
       } catch (error) {
         res.status(400).json({ success: false, data: error })
@@ -18,7 +18,7 @@ export default async function handler (req, res) {
       break
     case 'POST':
       try {
-        res.status(201).json({ success: true, data: transactions.data })
+        res.status(201).json({ success: true })
       } catch (error) {
         res.status(400).json({ success: false, data: error })
       }

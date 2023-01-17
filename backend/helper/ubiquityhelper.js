@@ -16,7 +16,6 @@ export function fetchTxByHash(protocol, network){
 
 export async function fetchTxs(protocol, network, pageSize, pageToken=null){
     let endPoint
-
     if (pageToken){
         endPoint = `/${protocol}/${network}/txs?page_size=${pageSize}&page_token=${pageToken}`
     }else{
@@ -28,7 +27,10 @@ export async function fetchTxs(protocol, network, pageSize, pageToken=null){
       } catch (error) {
         console.log(error);
       }
-      
+}
 
+export async function fetchContracts(){
+    let endPoint 
+    
 }
 

@@ -7,7 +7,10 @@ export async function getTransactionByID(id){
 }
 
 export async function getTransactions(){
-    //TODO spike, how handel the paggination
+    const cursor = Transaction.find().batchSize(100)
+    // Just add a testCursor to test the contract pipeline
+    const testCursor = Transaction.find().limit(10)
+    return testCursor
 }
 
 export async function createTransaction(transaction){
@@ -33,5 +36,4 @@ export async function updateTransactionByID(id, action){
     //const transaction = await getTransactionByID({"id": id})
     const newTransaction = await Transaction.updateOne({"id": id}, action)
     return newTransaction
-
 }
