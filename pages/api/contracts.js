@@ -1,5 +1,5 @@
-import dbConnect from '../../backend/helper/mongohelper'
-import { contractPipeline } from '../../backend/controler/pipelines/main.contract.controler'
+import dbConnect from '../../data-engine/ETL/helper/mongohelper'
+import { contractPipeline } from '../../data-engine/ETL/controler/pipelines/main.contract.controler'
 
 
 export default async function handler (req, res) {
