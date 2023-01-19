@@ -1,4 +1,4 @@
-import { fetchTxs } from "../../helper/Ubiquityhelper"
+import { fetchTxs } from "../../helper/ubiquityhelper"
 import { txpreprocessor } from "../../processors/preprocessors"
 import {createTransaction} from "../../dao/transaction.dao"
 import {getNextPagetoken, updateNextPageToken} from "../../dao/status.dao"

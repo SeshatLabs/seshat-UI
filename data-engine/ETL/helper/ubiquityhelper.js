@@ -29,8 +29,4 @@ export async function fetchTxs(protocol, network, pageSize, pageToken=null){
       }
 }
 
-export async function fetchContracts(){
-    let endPoint 
-    
-}
 
