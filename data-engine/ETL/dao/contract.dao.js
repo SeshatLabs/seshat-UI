@@ -2,7 +2,7 @@ import Contract from '../entities/contract.entity'
 
 export async function createContract(contract) {
     try {
-      const existingContract = await Contract.findOne({ SourceCode: contract.SourceCode });
+      const existingContract = await Contract.findOne({ contractAddress: contract.contractAddress });
       if (existingContract) {
         console.log('Contract with provided Address already exists, bypass...');
         return null;
