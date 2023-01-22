@@ -7,7 +7,6 @@ export async function getTransactionByID(id){
 }
 
 export async function getTransactions(){
-    console.log('wtf')
     const cursor = Transaction.find().limit(5)
     // Just add a testCursor to test the contract pipeline
     //const testCursor = Transaction.find().limit(10)
