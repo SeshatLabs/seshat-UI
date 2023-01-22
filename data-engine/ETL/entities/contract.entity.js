@@ -8,4 +8,4 @@ const contractSchema = new mongoose.Schema({
     Proxy: String
 })
 
-module.exports = mongoose.model('Contract', contractSchema)
+export default mongoose.model('Contract', contractSchema);

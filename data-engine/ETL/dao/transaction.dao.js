@@ -7,10 +7,17 @@ export async function getTransactionByID(id){
 }
 
 export async function getTransactions(){
-    const cursor = Transaction.find().batchSize(100)
+    console.log('wtf')
+    const cursor = Transaction.find().limit(5)
     // Just add a testCursor to test the contract pipeline
-    const testCursor = Transaction.find().limit(10)
-    return testCursor
+    //const testCursor = Transaction.find().limit(10)
+    return cursor
+}
+
+export async function processTransactionAddresses(transactions, callback){
+    await Promise.all(transactions.map(async (contractEvent) => {
+        if (contractEvent.meta?.contract) await callback(contractEvent.meta?.contract)
+    }))
 }
 
 export async function createTransaction(transaction){

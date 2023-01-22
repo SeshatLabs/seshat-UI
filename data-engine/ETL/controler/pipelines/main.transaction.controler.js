@@ -7,7 +7,7 @@ import {getNextPagetoken, updateNextPageToken} from "../../dao/status.dao"
 export async function mainPipeline() {
     const page_size = 100
     let transactions
-
+    console.log('A')
     for (let i=0; i<1000; i++){
         let page_token = await getNextPagetoken()
         console.log(page_token)

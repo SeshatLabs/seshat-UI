@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import { CONSTANTS } from '../shared/Constants';
 
-export default function dbConnect (){
-
+export function dbConnect() {
     mongoose.connect(CONSTANTS.dbconnectionURL);
+}
+
+export function dbDisconnect() {
+    mongoose.disconnect();
 }
