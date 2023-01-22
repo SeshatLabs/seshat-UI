@@ -12,16 +12,15 @@ export async function contractPipeline() {
     txs.forEach(async function (tx) {
         tx.events.forEach(async function (contractEvent) {
             {
-                let finalContracts = [];
-                let contractAddress;
-                let contracts;
                 if (contractEvent.meta?.contract) {
-                    contractAddress = contractEvent.meta?.contract
-                    contracts = await fetchContracts(contractAddress)
-                    if (contracts) finalContracts = contractpreprocessor(contractAddress, contracts)
-                    finalContracts.forEach(async function (finalContract) {
-                        await createContract(finalContract)
-                    })
+                    let contractAddress = contractEvent.meta?.contract
+                    let contracts = await fetchContracts(contractAddress)
+                    if (contracts) {
+                        let finalContracts = contractpreprocessor(contractAddress, contracts)
+                        finalContracts.forEach(async function (finalContract) {
+                            await createContract(finalContract)
+                        })
+                    }
                 }
             }
         })
