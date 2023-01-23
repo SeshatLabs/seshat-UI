@@ -1,45 +1,45 @@
 
 import Transaction from '../entities/transaction.entity'
 
-export async function getTransactionByID(id){
-    const transaction = Transaction.find({"id":id})
+export async function getTransactionByID(id) {
+    const transaction = Transaction.find({ "id": id })
     return transaction
 }
 
-export async function getTransactions(){
-    const cursor = Transaction.find().limit(5)
-    // Just add a testCursor to test the contract pipeline
-    //const testCursor = Transaction.find().limit(10)
-    return cursor
+/**
+ * Run a callback on contractAddresses from Transaction Collection
+ * @param {function(string): any} callback 
+ * @param {int} limit 
+ */
+export async function processTransactionContractAddresses(callback, limit = 0) {
+    for await (const transaction of Transaction.find().limit(limit)) {
+        for await (const contractEvent of transaction.events) {
+            if (contractEvent.meta?.contract) await callback(contractEvent.meta?.contract)
+        }
+    }
 }
 
-export async function processTransactionAddresses(transactions, callback){
-    await Promise.all(transactions.map(async (contractEvent) => {
-        if (contractEvent.meta?.contract) await callback(contractEvent.meta?.contract)
-    }))
-}
-
-export async function createTransaction(transaction){
-    if (await transactionExist(transaction.id)){
+export async function createTransaction(transaction) {
+    if (await transactionExist(transaction.id)) {
         console.log('transaction with provided id exists, bypass ...')
         return null
-    }else{
+    } else {
         const finalTransaction = await Transaction.create(transaction)
         console.log('transaction created successfully')
         return finalTransaction
-    } 
+    }
 }
 
-export async function transactionExist(id){
+export async function transactionExist(id) {
     const transaction = await getTransactionByID(id)
-    if(transaction.length == 0) {
+    if (transaction.length == 0) {
         return false
     }
     return true
 }
 
-export async function updateTransactionByID(id, action){
+export async function updateTransactionByID(id, action) {
     //const transaction = await getTransactionByID({"id": id})
-    const newTransaction = await Transaction.updateOne({"id": id}, action)
+    const newTransaction = await Transaction.updateOne({ "id": id }, action)
     return newTransaction
 }

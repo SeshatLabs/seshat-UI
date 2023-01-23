@@ -19,6 +19,5 @@ export function contractpreprocessor(id, contracts){
             }
             newContracts.push(newContract)
     })
-    console.log('finish preprocessor')
     return newContracts
 }

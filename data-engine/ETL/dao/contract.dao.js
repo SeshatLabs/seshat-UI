@@ -6,7 +6,7 @@ export async function createContract(contract) {
     console.log('Contract created successfully');
     return finalContract;
   } catch (error) {
-    console.error(error);
+    //console.error(error);
   }
 }
 
