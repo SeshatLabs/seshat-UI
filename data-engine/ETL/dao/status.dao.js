@@ -1,4 +1,3 @@
-
 import Status from '../entities/status.entity'
 
 export async function getNextPagetoken(){

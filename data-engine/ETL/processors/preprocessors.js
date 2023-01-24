@@ -1,4 +1,3 @@
-
 export function txpreprocessor(transactions, next_page_token){
     for (let i=0; i < transactions.data.length; i++){
         transactions.data[i]['next_page_token'] = next_page_token
@@ -19,6 +18,5 @@ export function contractpreprocessor(id, contracts){
             }
             newContracts.push(newContract)
     })
-    console.log('finish preprocessor')
     return newContracts
 }
