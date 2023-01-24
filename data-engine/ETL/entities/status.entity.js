@@ -5,4 +5,4 @@ const StatusSchema = new mongoose.Schema({
     running_status: Boolean
 })
 
-module.exports = mongoose.models.Status || mongoose.model('Status', StatusSchema)
+export default mongoose.model('Status', StatusSchema)

@@ -34,7 +34,7 @@ const TransactionSchema = new mongoose.Schema({
     next_page_token: String
 })
 
-module.exports = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema)
+export default mongoose.model('Transaction', TransactionSchema);
 
 /* Transactions data model
 total: 100,
