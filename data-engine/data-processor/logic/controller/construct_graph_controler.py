@@ -9,13 +9,11 @@ class ConstructGraphControler(metaclass=Singleton):
     def __init__(self):
         self.debug = False
         self.mongo_helper = MongoHelper(Configs.mongo_url, debug=self.debug)
-
     def edgeHandler():
         pass
 
     def nodeHandler(self):
-        data = {
-            next_page_token: "test",
-            running_status: True
-        }
-        self.mongo_helper.insert_one(status, data)
+        #TODO we need to go through all transactions and extract all EOA and CA addresses as main nodes
+        
+        test = self.mongo_helper.get_all('status')
+        print(test)

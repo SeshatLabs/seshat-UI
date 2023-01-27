@@ -1,0 +1,1 @@
+#TODO we need to add sth like mongoHelper but for Neo4J

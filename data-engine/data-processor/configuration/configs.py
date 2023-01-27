@@ -13,4 +13,4 @@ class Configs(Singleton):
     log_level : int = config('LOG_LEVEL')
     port: int = config('PORT', default=80, cast=int)
     SECRET_KEY = config('SECRET_KEY', default='a;lsdkfh;lakshdhflkajsdf')
-    mongo_url = config('MONGO_URL')
+    mongo_url: str = config('MONGO_URL', default='')

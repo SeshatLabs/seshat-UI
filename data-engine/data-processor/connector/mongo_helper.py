@@ -20,9 +20,9 @@ class MongoHelper:
 
     def connect(self):
         self.client = MongoClient(self.url, server_api=ServerApi('1'))
-        # dbs = self.client.list_database_names()
-        self.db = self.client.get_default_database()
-        server_status_result = self.db.command("serverStatus")
+        dbs = self.client.list_database_names()
+        self.db = self.client.get_default_database(default='test')
+        # server_status_result = self.db.command("serverStatus")
         # pprint(server_status_result)
 
     def drop_collection(self, collection_name):
@@ -53,10 +53,10 @@ class MongoHelper:
 
     def bulk_update(self, data, collection_name):
         bulk = self.db[collection_name].initialize_ordered_bulk_op()
-        for document in data:
-            if 'Photos' in document:
-                bulk.find({'_id': document['_id']}).update({'$set': {'Photos': document['Photos'], }})
-        bulk.execute()
+        # for document in data:
+        #     if 'Photos' in document:
+        #         bulk.find({'_id': document['_id']}).update({'$set': {'Photos': document['Photos'], }})
+        # bulk.execute()
 
     def update_many(self, condition, data, collection_name, upsert=False):
         return self.db[collection_name].update_many(condition, data, upsert=upsert)
