@@ -66,9 +66,9 @@ class MongoHelper:
 
     def get_all(self, collection_name, condition=None, limit=None):
         if limit is None:
-            result = self.db[collection_name].find(condition)
+            result = self.db[collection_name].find(condition).batch_size(100)
         else:
-            result = self.db[collection_name].find(condition).limit(limit)
+            result = self.db[collection_name].find(condition).limit(limit).batch_size(100)
 
         results = []
         for data in result:
@@ -85,15 +85,20 @@ class MongoHelper:
             result = \
                 len(list(self.db[collection_name].aggregate(aggregation)))
         elif condition:
-            result = self.db[collection_name].find(condition).count()
+            result = self.db[collection_name].count_documents(condition)
         return result
 
     def delete_many(self, collection_name, condition=None):
         self.db[collection_name].delete_many(condition)
 
     def exists(self, collection_name, condition):
-        return self.db[collection_name].find(condition).count() > 0
+        return self.db[collection_name].count_documents(condition) > 0
 
     def aggregate(self, collection_name, aggr_pipeline):
         return list(self.db[collection_name].aggregate(aggr_pipeline))
+
+    def is_contract(self, address):
+        return self.exists('contracts', {'contractAddress': address})
+
+
 

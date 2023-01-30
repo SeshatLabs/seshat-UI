@@ -35,14 +35,7 @@ def run_upload_pipeline():
     controller = ConstructGraphControler()
     pipeline_class = pipelines[data['pipeline']]['class']
     data.pop('pipeline')
-    # run_env = 'aws'
-    # if 'run_env' in data and data['run_env'] and data['run_env'] != '':
-    #     run_env = data['run_env']
-    #     data.pop('run_env')
-    # run_method = controller.run_local_pipeline
-    # if run_env == 'aws':
-    #     run_method = controller.run_aws_pipeline
-    controller.nodeHandler()
+    controller.graph_insertor()
     return {'result': 'ok'}
 
 
@@ -51,18 +44,6 @@ def run_upload_pipeline():
 def run_processors():
     data = request.get_json()
     controller = ConstructGraphControler()
-    # run_env = 'aws'
-    # if 'run_env' in data and data['run_env'] and data['run_env'] != '':
-    #     run_env = data['run_env']
-    #     data.pop('run_env')
-    # listings = None
-    # if 'listings' in data and data['listings'] and data['listings'] != '':
-    #     listings = data['listings']
-    #     data.pop('listings')
-    # run_method = controller.run_local_pipeline
-    # if run_env == 'aws':
-    #     run_method = controller.run_aws_pipeline
-    # controller.run_pipeline(run_method, DynamicPipeline, listings=listings, **data)
     return {'result': 'ok'}
 
 
