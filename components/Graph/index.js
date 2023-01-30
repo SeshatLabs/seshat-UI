@@ -22,8 +22,8 @@ import styles from './Graph.module.css'
 import { useState } from 'react';
 
 var neo4jDriver = driver(
-    'neo4j+s://48123171.databases.neo4j.io:7687',
-    auth.basic('neo4j', '')
+    process.env.NEXT_PUBLIC_NEO4J_URL,
+    auth.basic(process.env.NEXT_PUBLIC_NEO4J_USERNAME, process.env.NEXT_PUBLIC_NEO4J_PASSWORD)
 );
 
 var neoSession = neo4jDriver.session({ defaultAccessMode: session.READ });
