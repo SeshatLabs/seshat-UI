@@ -1,0 +1,27 @@
+.flow {
+    flex-grow: 1;
+    font-size: 12px;
+    height: 75vh;
+    width: 90vw;
+}
+
+.contractNode {
+    background-color: rgb(179, 22, 179);
+    
+}
+
+.userNode {
+    background-color: rgb(58, 190, 146);
+}
+
+
+.accountNode {
+    border-radius: 50%;
+    border: 1px solid #000;
+    height: 10rem;
+    width: 10rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
