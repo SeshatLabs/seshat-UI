@@ -11,8 +11,7 @@ export async function fetchContracts(address) {
                 module: 'contract',
                 action: 'getsourcecode',
                 address: `${address}`,
-                apikey: 'D2QM9JPD6UMK1XYCTK32SE9IRZCP8BF1AG'
-
+                apikey: process.env.NEXT_PUBLIC_SOCIALBLOCK_ETHERSCAN_SK
             }
         })
 
