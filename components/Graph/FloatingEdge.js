@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useStore, getStraightPath, EdgeLabelRenderer } from 'reactflow';
-import styles from './Graph.module.css'
 import { getEdgeParams } from './utils.js';
 
 function FloatingEdge({ id, source, target, markerEnd, style, data }) {
@@ -32,23 +31,23 @@ function FloatingEdge({ id, source, target, markerEnd, style, data }) {
     >
     </path>
     <EdgeLabelRenderer>
-        <div
-          style={{
-            position: 'absolute',
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            background: '#FFFFFF',
-            padding: 10,
-            borderRadius: 5,
-            fontSize: 12,
-            fontWeight: 700,
-          }}
-          className="nodrag nopan"
-        >
-          {data.type}
-        </div>
-      </EdgeLabelRenderer>
-        
-      
+      <div
+        style={{
+          position: 'absolute',
+          transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+          background: '#FFFFFF',
+          padding: 10,
+          borderRadius: 5,
+          fontSize: 12,
+          fontWeight: 700,
+        }}
+        className="nodrag nopan"
+      >
+        {data.type}
+      </div>
+    </EdgeLabelRenderer>
+
+
   </>;
 }
 
