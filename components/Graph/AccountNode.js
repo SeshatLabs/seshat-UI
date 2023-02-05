@@ -3,7 +3,7 @@ import { memo, FC, CSSProperties } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import styles from './Graph.module.css'
 
-const AccountNode = ({ data, xPos, yPos }) => {
+const AccountNode = ({ data, xPos, yPos, selected }) => {
     return (
         <>
         
@@ -11,7 +11,7 @@ const AccountNode = ({ data, xPos, yPos }) => {
             <Handle type="target" ></Handle>
             <Handle type="source" ></Handle>
                 <PopoverTrigger>
-                    <div className={styles.accountNode}>
+                    <div className={`${styles.accountNode} ${selected ? styles.selectedNode : ''}`}>
                         <strong>{data.label.slice(0,9)}...</strong>
                     </div>
                 </PopoverTrigger>
