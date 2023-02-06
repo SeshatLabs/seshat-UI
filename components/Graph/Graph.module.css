@@ -25,3 +25,7 @@
     align-items: center;
     display: flex;
 }
+
+.selectedNode {
+    border: 2px solid #000;
+}

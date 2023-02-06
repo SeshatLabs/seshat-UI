@@ -46,6 +46,16 @@ const Graph = ({ searchText }) => {
         [setEdges]
     );
 
+    const onEdgeClick = (event, edge) => {
+        setNodes(nodes.map((node) => {
+            if (node.id === edge.source || node.id === edge.target) {
+                return { ...node, selected: true }
+            } else {
+                return node;
+            }
+        }))
+    }
+
     useEffect(() => {
         if (nodesLength != nodes.length) {
             setTimeout(() => {
@@ -107,7 +117,7 @@ const Graph = ({ searchText }) => {
                             return {
                                 id: relationship.elementId, source: relationship.startNodeElementId, target: relationship.endNodeElementId, type: 'floating', markerEnd: {
                                     type: MarkerType.Arrow,
-                                },
+                                }, data: { type: relationship.type }
                             }
                         }));
                     });
@@ -126,6 +136,8 @@ const Graph = ({ searchText }) => {
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         connectionLineComponent={FloatingConnectionLine}
+        onEdgeClick={onEdgeClick}
+
         fitView
     />
 
