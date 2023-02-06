@@ -11,7 +11,7 @@ const AccountNode = ({ data, xPos, yPos, selected }) => {
                 <Handle type="source" ></Handle>
                 <PopoverTrigger>
                     <div className={`${styles.accountNode} ${selected ? styles.selectedNode : ''}`}>
-                        <strong>{data?.name ? data?.name : data.label.slice(0,9)}...</strong>
+                        <strong>{data?.name ? data?.name : data.label.slice(0,9) + '...'}</strong>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent>
@@ -19,7 +19,10 @@ const AccountNode = ({ data, xPos, yPos, selected }) => {
                     <PopoverCloseButton />
                     <PopoverHeader>Address: {data.label}</PopoverHeader>
                     <PopoverBody>Account Type: {data.type} </PopoverBody>
-                    <PopoverBody>Other info: </PopoverBody>
+                    <PopoverBody>Other info: <br/>
+                        {data?.name ? <div>Name: {data?.name}</div>: <></>}
+                    </PopoverBody>
+                    
                 </PopoverContent>
             </Popover>
         </>
