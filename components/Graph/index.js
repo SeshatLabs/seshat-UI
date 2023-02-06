@@ -13,7 +13,6 @@ import { forceSimulation, forceManyBody, forceCenter, forceLink } from 'd3-force
 
 import FloatingEdge from './FloatingEdge.js';
 import FloatingConnectionLine from './FloatingConnectionLine.js';
-import { driver, session, auth } from 'neo4j-driver';
 import { useCallback, useEffect } from 'react';
 
 
@@ -21,12 +20,7 @@ import 'reactflow/dist/style.css';
 import styles from './Graph.module.css'
 import { useState } from 'react';
 
-var neo4jDriver = driver(
-    process.env.NEXT_PUBLIC_NEO4J_URL,
-    auth.basic(process.env.NEXT_PUBLIC_NEO4J_USERNAME, process.env.NEXT_PUBLIC_NEO4J_PASSWORD)
-);
 
-var neoSession = neo4jDriver.session({ defaultAccessMode: session.READ });
 
 const defaultEdgeOptions = {
     animated: true,
@@ -73,15 +67,20 @@ const Graph = ({ searchText }) => {
 
     useEffect(() => {
         const getUsers = async () => {
-            const data = await neoSession.run(`MATCH (c) WHERE c.address = "${searchText}"
-            CALL apoc.path.subgraphAll(c, {maxLevel: 2}) YIELD nodes, relationships 
-            RETURN nodes, relationships`);
-            if (data.records.length === 0) {
+            const res = await fetch('/api/search?' + new URLSearchParams({
+                text: searchText
+            }), { method: "GET" })
+
+            let body = await res.json();
+        
+            const data = body.data
+
+            if (data.node_data.length + data.relationship_data.length === 0) {
                 return;
             }
 
-            const node_data = data.records.at(0).get('nodes');
-            const relationship_data = data.records.at(0).get('relationships');
+            const node_data = data.node_data
+            const relationship_data = data.relationship_data
             const indMapping = new Map();
 
             node_data.forEach((node, i) => {
@@ -107,7 +106,7 @@ const Graph = ({ searchText }) => {
 
                             return {
                                 id: node.elementId,
-                                data: { label: node.properties.address, type: node.labels[0] },
+                                data: { label: node.properties.address, type: node.labels[0], name: node.properties?.contractName },
                                 position: { x: sim_nodes[i].x, y: sim_nodes[i].y },
                                 className: `${node.labels[0] === 'USER' ? styles.userNode : styles.contractNode} ${styles.accountNode}`,
                                 type: 'account',

@@ -11,7 +11,7 @@ const AccountNode = ({ data, xPos, yPos, selected }) => {
                 <Handle type="source" ></Handle>
                 <PopoverTrigger>
                     <div className={`${styles.accountNode} ${selected ? styles.selectedNode : ''}`}>
-                        <strong>{data.label.slice(0, 9)}...</strong>
+                        <strong>{data?.name ? data?.name : data.label.slice(0,9)}...</strong>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent>
