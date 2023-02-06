@@ -8,7 +8,7 @@ import Graph from '../components/Graph';
 import { ReactFlowProvider } from 'reactflow';
 
 export default function Home() {
-  const [searched, setSearched] = useState(false);
+  const [searched, setSearched] = useState(false); 
   const [inputText, setInputText] = useState('');
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {
