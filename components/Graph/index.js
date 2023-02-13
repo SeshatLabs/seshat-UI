@@ -106,7 +106,7 @@ const Graph = ({ searchText }) => {
 
                             return {
                                 id: node.elementId,
-                                data: { label: node.properties.address, type: node.labels[0] },
+                                data: { label: node.properties.address, type: node.labels[0], name: node.properties?.contractName },
                                 position: { x: sim_nodes[i].x, y: sim_nodes[i].y },
                                 className: `${node.labels[0] === 'USER' ? styles.userNode : styles.contractNode} ${styles.accountNode}`,
                                 type: 'account',
