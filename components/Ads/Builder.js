@@ -177,7 +177,7 @@ export default function Builder({ builderSelected }) {
                         </Thead>
                         {
                             prevCampaigns.map((campaign) => {
-                                return <Tbody className={`${styles.tableEntry} ${selectedCampaign && campaign._id == selectedCampaign._id ? styles.selected : ''}`} key={campaign._id} onClick={() => { handleEntryOnClick(campaign);  }}><Tr>
+                                return <Tbody className={`${styles.tableEntry} ${selectedCampaign && campaign._id == selectedCampaign._id ? styles.selected : ''}`} key={campaign._id} onClick={() => { handleEntryOnClick(campaign); }}><Tr>
                                     <Td>{campaign.title}</Td>
                                     <Td>{campaign.timeRemaining} days</Td>
                                     <Td>{campaign.description.slice(0, 10)}</Td>
@@ -217,13 +217,9 @@ export default function Builder({ builderSelected }) {
                                 <Box>${selectedCampaign.budget} left in your budget</Box>
                             </AccordionPanel>
                         </AccordionItem>
-
                     </Accordion>
-
                     : <></>}
             </Box>
         </Box>
-
-
     </Box>
 }
