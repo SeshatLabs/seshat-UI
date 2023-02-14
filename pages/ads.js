@@ -5,6 +5,7 @@ import Selector from '../components/Ads/Selector';
 import Builder from '../components/Ads/Builder';
 import Explainer from '../components/Ads/Explainer';
 import { useState } from 'react';
+import {Box} from "@chakra-ui/react"
 
 export default function Ads() {
     const [builderSelected, setBuilderSelected] = useState(true);
@@ -19,7 +20,10 @@ export default function Ads() {
             <div className={styles.main}>
                 <Selector builderSelected={builderSelected} setBuilderSelected={setBuilderSelected}/>
                 <div className={styles.adSection}>
-                <Builder builderSelected={builderSelected}/> <Explainer builderSelected={builderSelected}/>
+                <Box my='10' mx='auto' maxW='1600px'>
+                    <Builder builderSelected={builderSelected}/> 
+                    <Explainer builderSelected={builderSelected}/>
+                </Box>
                 </div>
             </div>
         </div>

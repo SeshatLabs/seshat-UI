@@ -164,7 +164,7 @@ export default function Builder({ builderSelected }) {
                 </Box>
             </Box>
         </Box>
-        <Box className={styles.row}>
+        <Box className={styles.row} my='16'>
             <Box className={`${styles.section} ${prevCampaigns ? '' : styles.hidden}`}>
                 <TableContainer >
                     <Table variant='simple'>
