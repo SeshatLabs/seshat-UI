@@ -1,0 +1,77 @@
+.section {
+    width: auto;
+    height:  auto;
+    margin: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.builder {
+    height: 100%;
+    width: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.container {
+    display: flex;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+.preview {
+    max-height: 10vh;
+    width: auto;
+}
+
+.textin {
+    width: 50%;
+}
+
+.bottom {
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.fill {
+    flex-grow: 1;
+}
+
+.makeflex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.selectorButtonLeft {
+    margin-right: 5px;
+}
+
+.selectorButtonRight {
+    margin-left: 5px;
+}
+
+.noDisplay {
+    display: none;
+  }
+  
+  .tableEntry {
+    background-color: white;
+    transition: 0.2s;
+}  
+
+
+.tableEntry:hover {
+    background-color: rgb(212, 212, 212);
+}  
+
+.selected {
+    background-color: rgb(212, 212, 212);
+}  

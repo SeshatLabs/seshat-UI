@@ -8,7 +8,7 @@ import Graph from '../components/Graph';
 import { ReactFlowProvider } from 'reactflow';
 
 export default function Home() {
-  const [searched, setSearched] = useState(false); 
+  const [searched, setSearched] = useState(false);
   const [inputText, setInputText] = useState('');
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {
@@ -21,15 +21,15 @@ export default function Home() {
   }
 
   return (
-    
+
     <div className={styles.container}>
-            <Head>
+      <Head>
         <title>SocialBlock - Home</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <div className={searched ? styles.finishedSearch : styles.main }>
+      <div className={searched ? styles.finishedSearch : styles.main}>
         <InputGroup size='md'>
           <Input
             pr='4.5rem'
@@ -39,11 +39,11 @@ export default function Home() {
           />
           <InputRightElement width='4.5rem' className={styles.searchBar}>
             <Button h='1.75rem' size='sm' onClick={handleSearch}>
-              Search 
+              Search
             </Button>
           </InputRightElement>
         </InputGroup>
-      
+
       </div>
       {searched ? <div className={styles.flow}><ReactFlowProvider><Graph searchText={searchText}></Graph></ReactFlowProvider></div> : <></>}
 
