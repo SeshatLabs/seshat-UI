@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
-import Selector from '../components/Ads/selector';
+import Selector from '../components/Ads/Selector';
 import Builder from '../components/Ads/Builder';
 import Explainer from '../components/Ads/Explainer';
 import { useState } from 'react';
