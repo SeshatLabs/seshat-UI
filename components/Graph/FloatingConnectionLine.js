@@ -27,8 +27,8 @@ function FloatingConnectionLine({ targetX, targetY, sourcePosition, targetPositi
 
   return (
     <g>
-      <path fill="none" stroke="#222" strokeWidth={3} className="animated" d={edgePath} />
-      <circle cx={targetX} cy={targetY} fill="#fff" r={3} stroke="#222" strokeWidth={1.5} />
+      <path fill="none" stroke="#805AD5" strokeWidth={3} className="animated" d={edgePath} />
+      <circle cx={targetX} cy={targetY} fill="#805AD5" r={3} stroke="#805AD5" strokeWidth={1.5} />
     </g>
   );
 }

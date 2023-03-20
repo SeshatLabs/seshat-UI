@@ -140,6 +140,7 @@
 }
 
 .searchBar {
+  width: 80%;
   transition: y 2s;
 }
 
@@ -153,4 +154,8 @@
 .adSection {
   height: 100%;
   width: 100%;
+}
+
+.noDisplay {
+  display: None
 }
