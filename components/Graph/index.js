@@ -7,6 +7,20 @@ import ReactFlow, {
     useReactFlow
 } from 'reactflow';
 
+import {
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+    Flex,
+    SimpleGrid,
+} from '@chakra-ui/react'
+
 import AccountNode from './AccountNode.js';
 
 import { forceSimulation, forceManyBody, forceCenter, forceLink } from 'd3-force';
@@ -19,6 +33,10 @@ import { useCallback, useEffect } from 'react';
 import 'reactflow/dist/style.css';
 import styles from './Graph.module.css'
 import { useState } from 'react';
+
+const SEARCH_ENDPOINT = 'http://lg-research-1.uwaterloo.ca:8093/search';
+
+// const ret_data = [{ "nodes": [{ "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" }, { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, { "ContractName": "SwapRouter02", "address": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" }, { "ContractName": "UniswapV2Pair", "address": "0xacb434f2119b7d0ada06ecd96402608ef776dc67" }, { "address": "0x0cc5693ba91bb9a1f37a9846d2ebb922622a6b8e", "detail": "{}" }, { "ContractName": "WETH9", "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" }], "paths": [{ "path": [{ "end_node": { "ContractName": "SwapRouter02", "address": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" }, "label": "multicall", "properties": "{\"interaction\": {\"function_name\": \"multicall\", \"function_signature\": \"multicall (uint256, bytes[])\", \"function_args\": {\"deadline\": \"1671397343\", \"data\": [\"0x472b43f3000000000000000000000000000000000000000000000000013fbe85edc90000000000000000000000000000000000000000000000000110b916fee1cdb225130000000000000000000000000000000000000000000000000000000000000080000000000000000000000000e3108157338a6038410d18a2d70f2fe579ca74140000000000000000000000000000000000000000000000000000000000000002000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000000000000000000000000062b1637f3b2de01d72258e83e5c49303e4212e3\"]}}, \"interpretation\": \"Address 0xe3108157338a6038410d18a2d70f2fe579ca7414 called multicall (uint256, bytes[]) of contract 0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45 with these arguments: {/deadline/: /1671397343/, /data/: [/0x472b43f3000000000000000000000000000000000000000000000000013fbe85edc90000000000000000000000000000000000000000000000000110b916fee1cdb225130000000000000000000000000000000000000000000000000000000000000080000000000000000000000000e3108157338a6038410d18a2d70f2fe579ca74140000000000000000000000000000000000000000000000000000000000000002000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000000000000000000000000062b1637f3b2de01d72258e83e5c49303e4212e3/]}\"}", "start_node": { "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }, { "end_node": { "ContractName": "WETH9", "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" }, "label": "tokenTransfer", "properties": "{\"interaction\": null, \"interpretation\": \"ERC20 Token Transfer\"}", "start_node": { "ContractName": "SwapRouter02", "address": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }, { "end_node": { "ContractName": "UniswapV2Pair", "address": "0xacb434f2119b7d0ada06ecd96402608ef776dc67" }, "label": "tokenTransfer", "properties": "{\"interaction\": null, \"interpretation\": \"ERC20 Token Transfer\"}", "start_node": { "ContractName": "WETH9", "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }, { "end_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, "label": "tokenTransfer", "properties": "{\"interaction\": null, \"interpretation\": \"ERC20 Token Transfer\"}", "start_node": { "ContractName": "UniswapV2Pair", "address": "0xacb434f2119b7d0ada06ecd96402608ef776dc67" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }], "score": 0.5412166714668274 }, { "path": [{ "end_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, "label": "tokenTransfer", "properties": "{\"interaction\": null, \"interpretation\": \"ERC20 Token Transfer\"}", "start_node": { "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }, { "end_node": { "address": "0x0cc5693ba91bb9a1f37a9846d2ebb922622a6b8e", "detail": "{}" }, "label": "tokenTransfer", "properties": "{\"interaction\": null, \"interpretation\": \"ERC20 Token Transfer\"}", "start_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, "tx_id": "0xd90a8a7702d2a136ad59aa9f121ed7c50db226b0486eab9da6541c2b26c831d9" }], "score": 0.5432828068733215 }], "relationships": [{ "end_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, "label": "tokenTransfer", "start_node": { "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" } }, { "end_node": { "ContractName": "SwapRouter02", "address": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" }, "label": "multicall", "start_node": { "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" } }, { "end_node": { "address": "0xe3108157338a6038410d18a2d70f2fe579ca7414", "detail": "{}" }, "label": "tokenTransfer", "start_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" } }, { "end_node": { "address": "0x0cc5693ba91bb9a1f37a9846d2ebb922622a6b8e", "detail": "{}" }, "label": "tokenTransfer", "start_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" } }, { "end_node": { "ContractName": "WETH9", "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" }, "label": "tokenTransfer", "start_node": { "ContractName": "SwapRouter02", "address": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45" } }, { "end_node": { "ContractName": "YamataNoUsagi", "address": "0x062b1637f3b2de01d72258e83e5c49303e4212e3" }, "label": "tokenTransfer", "start_node": { "ContractName": "UniswapV2Pair", "address": "0xacb434f2119b7d0ada06ecd96402608ef776dc67" } }, { "end_node": { "ContractName": "UniswapV2Pair", "address": "0xacb434f2119b7d0ada06ecd96402608ef776dc67" }, "label": "tokenTransfer", "start_node": { "ContractName": "WETH9", "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" } }] }]
 
 
 
@@ -35,9 +53,12 @@ const nodeTypes = {
     account: AccountNode,
 };
 
-const Graph = ({ searchText }) => {
+const Graph = ({ searchText, hop }) => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [hovered, setHovered] = useState([]);
+
+    const [paths, setPaths] = useState([]);
     const [nodesLength, setNodesLength] = useState(0);
     const { setCenter } = useReactFlow();
 
@@ -57,6 +78,30 @@ const Graph = ({ searchText }) => {
     }
 
     useEffect(() => {
+        if (!hovered) {
+            return;
+        }
+
+        const pathNodeIds = hovered.map(e => [e.start_node.address, e.end_node.address]).flat();
+        const relationshipIds = hovered.map(e => e.tx_id + e.start_node.address + e.end_node.address);
+        setNodes(nodes.map((node) => {
+            if (pathNodeIds.includes(node.id)) {
+                return { ...node, data: { ...node.data, hovered: true } }
+            } else {
+                return { ...node, data: { ...node.data, hovered: false } };
+            }
+        }))
+
+        setEdges(edges.map((edge) => {
+            if (relationshipIds.includes(edge.id)) {
+                return { ...edge, data: { ...edge.data, hovered: true } }
+            } else {
+                return { ...edge, data: { ...edge.data, hovered: false } };
+            }
+        }))
+    }, [hovered]);
+
+    useEffect(() => {
         if (nodesLength != nodes.length) {
             setTimeout(() => {
                 setCenter(0, 0, { zoom: 0.5 });
@@ -67,80 +112,123 @@ const Graph = ({ searchText }) => {
 
     useEffect(() => {
         const getUsers = async () => {
-            const res = await fetch('/api/search?' + new URLSearchParams({
-                text: searchText
+            if (!searchText || !hop) {
+                return;
+            }
+            const res = await fetch(SEARCH_ENDPOINT + '?' + new URLSearchParams({
+                query: searchText,
+                hop: hop
             }), { method: "GET" })
 
             let body = await res.json();
-        
-            const data = body.data
+            //let body = ret_data;
 
-            if (data.node_data.length + data.relationship_data.length === 0) {
+            const data = body[0]
+
+            if (data.nodes.length + data.relationships.length === 0) {
                 return;
             }
 
-            const node_data = data.node_data
-            const relationship_data = data.relationship_data
-            const indMapping = new Map();
+            setPaths(data.paths);
+            const nodes = data.nodes;
 
-            node_data.forEach((node, i) => {
-                indMapping.set(node.elementId, i)
+            const relationships = data.paths.map((totalPath) => {
+                return totalPath.path;
+            }).flat();
+
+
+            const indMapping = new Map();
+            for (let rel in relationships) {
+                let parsed;
+                try { parsed = await JSON.parse(relationships[rel].properties); } catch (e) { parsed = {} }
+                relationships[rel].properties = parsed;
+            }
+
+            nodes.forEach((node, i) => {
+                indMapping.set(node.address, i)
             });
 
-            const sim_nodes = node_data.map((node) => {
-                if (node.properties.address === searchText) {
+            const sim_nodes = nodes.map((node) => {
+                if (node.address === searchText) {
                     return { fx: 0, fy: 0 };
                 }
-                return {};
-            });
-            const sim_links = relationship_data.map((relationship) => {
-                return { source: indMapping.get(relationship.startNodeElementId), target: indMapping.get(relationship.endNodeElementId) };
+                return {}
             });
 
+            const sim_links = relationships.map((relationship) => {
+                return { source: indMapping.get(relationship.start_node.address), target: indMapping.get(relationship.end_node.address) };
+            });
+
+
+
             let simulation = forceSimulation(sim_nodes)
-                .force('charge', forceManyBody().strength(-10000))
+                .force('charge', forceManyBody().strength(-30000))
                 .force('center', forceCenter(0, 0))
                 .force('link', forceLink()
                     .links(sim_links)).on('end', () => {
-                        setNodes(node_data.map((node, i) => {
-
+                        console.log(sim_nodes)
+                        console.log(sim_links)
+                        setNodes(nodes.map((node, i) => {
                             return {
-                                id: node.elementId,
-                                data: { label: node.properties.address, type: node.labels[0], name: node.properties?.ContractName },
+                                id: node.address,
+                                data: { label: node.address, name: node?.ContractName, hovered: false },
                                 position: { x: sim_nodes[i].x, y: sim_nodes[i].y },
-                                className: `${node.labels[0] === 'USER' ? styles.userNode : styles.contractNode} ${styles.accountNode}`,
+                                className: `${node.ContractName ? styles.userNode : styles.contractNode} ${styles.accountNode}`,
                                 type: 'account',
-                                selected: node.properties.address === searchText ? true : false
+                                selected: node.address === searchText ? true : false
                             }
                         }));
-                        setEdges(relationship_data.map((relationship, i) => {
+                        setEdges(relationships.map((relationship, i) => {
                             return {
-                                id: relationship.elementId, source: relationship.startNodeElementId, target: relationship.endNodeElementId, type: 'floating', markerEnd: {
+                                id: relationship.tx_id + relationship.start_node.address + relationship.end_node.address,
+                                source: relationship.start_node.address, target: relationship.end_node.address, type: 'floating', markerEnd: {
                                     type: MarkerType.Arrow,
-                                }, data: { type: relationship.type }
+                                }, data: { label: relationship.label, hovered: false, properties: relationship.properties }
                             }
                         }));
                     });
         }
         getUsers();
-    }, [searchText])
+    }, [searchText, hop])
 
-    return <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        defaultEdgeOptions={defaultEdgeOptions}
-        connectionLineType={ConnectionLineType.SmoothStep}
-        edgeTypes={edgeTypes}
-        nodeTypes={nodeTypes}
-        connectionLineComponent={FloatingConnectionLine}
-        onEdgeClick={onEdgeClick}
 
-        fitView
-    />
+    return <SimpleGrid columns={2} h='100%'>
+        <TableContainer>
+            <Table variant='simple'>
+                <Thead>
+                    <Tr>
+                        <Th>Path (Transaction ID) </Th>
+                        <Th>Rank</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {
+                        paths.sort((a, b) => { a.score - b.score }).map((path, i) =>
+                            <Tr className={styles.tableEntry} onMouseEnter={() => { setHovered(path.path) }} onMouseLeave={() => { setHovered([]) }}>
+                                <Td>{path.path[0].tx_id}</Td>
+                                <Td>{i + 1}</Td>
+                            </Tr>
+                        )
+                    }
+                </Tbody>
+            </Table>
+        </TableContainer>
 
+        <ReactFlow
+            nodes={nodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            defaultEdgeOptions={defaultEdgeOptions}
+            connectionLineType={ConnectionLineType.SmoothStep}
+            edgeTypes={edgeTypes}
+            nodeTypes={nodeTypes}
+            connectionLineComponent={FloatingConnectionLine}
+            onEdgeClick={onEdgeClick}
+
+            fitView
+        /></SimpleGrid>
 }
 
 export default Graph;

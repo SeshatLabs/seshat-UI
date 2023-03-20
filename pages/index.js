@@ -6,10 +6,12 @@ import { InputGroup, Input, InputRightElement } from '@chakra-ui/input'
 import { Button } from '@chakra-ui/button'
 import Graph from '../components/Graph';
 import { ReactFlowProvider } from 'reactflow';
+import { SimpleGrid } from '@chakra-ui/react';
 
 export default function Home() {
   const [searched, setSearched] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [hop, setHop] = useState(0);
   const [searchText, setSearchText] = useState('');
   const handleSearch = () => {
     setSearched(true);
@@ -18,6 +20,10 @@ export default function Home() {
 
   const handleTextInput = (e) => {
     setInputText(e.target.value)
+  }
+
+  const handleHopInput = (e) => {
+    setHop(e.target.value)
   }
 
   return (
@@ -30,23 +36,33 @@ export default function Home() {
       </Head>
       <Header></Header>
       <div className={searched ? styles.finishedSearch : styles.main}>
-        <InputGroup size='md'>
-          <Input
-            pr='4.5rem'
-            type={'text'}
-            placeholder='Address'
-            onChange={handleTextInput}
-          />
-          <InputRightElement width='4.5rem' className={styles.searchBar}>
-            <Button h='1.75rem' size='sm' onClick={handleSearch}>
-              Search
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <SimpleGrid columns={2} className={styles.searchBar} spacing={10}>
+          <InputGroup size='md'>
+            <Input
+              pr='4.5rem'
+              type={'text'}
+              placeholder='Address'
+              onChange={handleTextInput}
+            />
+            <InputRightElement width='4.5rem' >
+              <Button h='1.75rem' size='sm' onClick={handleSearch}>
+                Search
+              </Button>
+            </InputRightElement>
+
+          </InputGroup>
+          <InputGroup size='sm'>
+            <Input
+              pr='4.5rem'
+              type={'text'}
+              placeholder='Hop'
+              onChange={handleHopInput}
+            />
+          </InputGroup>
+        </SimpleGrid>
 
       </div>
-      {searched ? <div className={styles.flow}><ReactFlowProvider><Graph searchText={searchText}></Graph></ReactFlowProvider></div> : <></>}
-
+      <div className={`${styles.flow} ${searched ? '' : styles.noDisplay}`}><ReactFlowProvider><Graph searchText={searchText} hop={hop}></Graph></ReactFlowProvider></div>
     </div>
   )
 }

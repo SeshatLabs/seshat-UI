@@ -10,16 +10,15 @@ const AccountNode = ({ data, xPos, yPos, selected }) => {
                 <Handle type="target" ></Handle>
                 <Handle type="source" ></Handle>
                 <PopoverTrigger>
-                    <div className={`${styles.accountNode} ${selected ? styles.selectedNode : ''}`}>
+                    <div className={`${styles.accountNode} ${selected ? styles.selectedNode : ''} ${data.hovered ? styles.pathHovered : ''}`}>
                         <strong>{data?.name ? data?.name : data.label.slice(0,9) + '...'}</strong>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent>
                     <PopoverArrow />
                     <PopoverCloseButton />
-                    <PopoverHeader>Address: {data.label}</PopoverHeader>
-                    <PopoverBody>Account Type: {data.type} </PopoverBody>
-                    <PopoverBody>Other info: <br/>
+                    <PopoverHeader>Details:</PopoverHeader>
+                    <PopoverBody>Address: {data.label} <br></br>
                         {data?.name ? <div>Name: {data?.name}</div>: <></>}
                     </PopoverBody>
                     

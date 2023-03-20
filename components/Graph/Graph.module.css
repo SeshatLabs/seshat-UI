@@ -6,12 +6,12 @@
 }
 
 .contractNode {
-    background-color: rgb(179, 22, 179);
+    background-color: #805AD5;
     
 }
 
 .userNode {
-    background-color: rgb(58, 190, 146);
+    background-color: #FFFFFF;
 }
 
 
@@ -29,3 +29,19 @@
 .selectedNode {
     border: 2px solid #000;
 }
+
+
+.tableEntry {
+    background-color: white;
+    transition: 0.2s;
+}  
+
+
+.tableEntry:hover {
+    background-color: rgb(212, 212, 212);
+}  
+
+.pathHovered {
+    border: 2px solid #f15913;
+}
+
