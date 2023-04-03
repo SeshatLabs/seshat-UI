@@ -114,7 +114,10 @@ const Graph = ({ searchText, hop }) => {
             const res = await fetch(SEARCH_ENDPOINT + '?' + new URLSearchParams({
                 query: searchText,
                 hop: hop
-            }), { method: "GET" })
+            }), { 
+                method: "GET",
+                mode: "cors"
+            })
 
             let body = await res.json();
             //let body = ret_data;
