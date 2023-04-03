@@ -34,7 +34,7 @@ import 'reactflow/dist/style.css';
 import styles from './Graph.module.css'
 import { useState } from 'react';
 
-const SEARCH_ENDPOINT = 'http://lg-research-1.uwaterloo.ca:8093/search';
+const SEARCH_ENDPOINT = 'https://lg-research-1.uwaterloo.ca/search';
 
 const defaultEdgeOptions = {
     animated: true,
@@ -114,7 +114,10 @@ const Graph = ({ searchText, hop }) => {
             const res = await fetch(SEARCH_ENDPOINT + '?' + new URLSearchParams({
                 query: searchText,
                 hop: hop
-            }), { method: "GET" })
+            }), { 
+                method: "GET",
+                mode: "cors"
+            })
 
             let body = await res.json();
             //let body = ret_data;
@@ -128,7 +131,7 @@ const Graph = ({ searchText, hop }) => {
             setPaths(data.paths);
             const nodes = data.nodes;
 
-            const relationships = data.paths.map((totalPath) => {
+            const relationships = data.paths.map((totalPath) => { 
                 return totalPath.path;
             }).flat();
 
