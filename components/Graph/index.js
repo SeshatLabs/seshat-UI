@@ -128,7 +128,7 @@ const Graph = ({ searchText, hop }) => {
             setPaths(data.paths);
             const nodes = data.nodes;
 
-            const relationships = data.paths.map((totalPath) => {
+            const relationships = data.paths.map((totalPath) => { 
                 return totalPath.path;
             }).flat();
 
