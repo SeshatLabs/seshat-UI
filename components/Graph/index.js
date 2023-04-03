@@ -34,7 +34,7 @@ import 'reactflow/dist/style.css';
 import styles from './Graph.module.css'
 import { useState } from 'react';
 
-const SEARCH_ENDPOINT = 'http://lg-research-1.uwaterloo.ca:8093/search';
+const SEARCH_ENDPOINT = 'https://lg-research-1.uwaterloo.ca:8093/search';
 
 const defaultEdgeOptions = {
     animated: true,
