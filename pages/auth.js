@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+
 
 // export default function LoginPage() {
 //   const [session, loading] = useSession();
@@ -41,16 +40,13 @@ import { useSession, signIn } from "next-auth/react";
 //     );
 // }
 
-export default function Component() {
-  const { data: session } = useSession()
-  if(session) {
-    return <>
-      Signed in as {session.user.email} <br/>
-      <button onClick={() => signOut()}>Sign out</button>
-    </>
-  }
-  return <>
-    Not signed in <br/>
-    <button onClick={() => signIn()}>Sign in</button>
-  </>
-} 
+export default function auth(){
+
+    return (
+        <div>
+        <a href="/api/auth/login">Login</a>
+        <br></br>
+        <a href="/api/auth/logout">Logout</a>
+        </div>
+    )
+}
