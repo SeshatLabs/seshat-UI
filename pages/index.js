@@ -1,6 +1,23 @@
 import * as THREE from "three";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import NavBar from "../components/Header";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer, Box, Heading, Textarea, Button, Card, Stack, CardBody, Divider, CardFooter, ButtonGroup, Image, Text, SimpleGrid
+} from "@chakra-ui/react";
+import Selector from '../components/Ads/Selector';
+
+
+const SEARCH_ENDPOINT = 'https://lg-research-1.uwaterloo.ca/search';
+
 
 const Home = () => {
   const containerRef = useRef();
@@ -8,7 +25,15 @@ const Home = () => {
   const controlsRef = useRef();
   const rendererRef = useRef();
   const [objectsList, setObjectsList] = useState([]);
+  const [edgesList, setEdgesList] = useState([]);
   const [objectNames, setObjectNames] = useState('');
+  const [marketerSelect, setMarketerSelect] = useState(true);
+  const [names, setNames] = useState([]);
+  const [rawData, setRawData] = useState(false);
+  const [searchAddress, setSearchAddress] = useState('0xe3108157338a6038410d18a2d70f2fe579ca7414');
+  const [showme, setShowme] = useState(false);
+  const [advertisements, setAdvertisements] = useState([]);
+
 
   const changeObjectsColor = (namesList) => {
     namesList.forEach((name, index) => {
@@ -54,7 +79,7 @@ const Home = () => {
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
   };
-  
+
   const createSphere = (name) => {
     const geometry = new THREE.SphereGeometry(0.25, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Set the color to white
@@ -77,16 +102,126 @@ const Home = () => {
     return sphere;
   };
 
+  async function getNodesEdges(address, hop) {
+    const res = await fetch(SEARCH_ENDPOINT + '?' + new URLSearchParams({
+      query: address,
+      hop: hop
+    }), {
+      method: "GET",
+      mode: "cors"
+    })
+
+    let raw_res = await res.json();
+    console.log(raw_res)
+    if (raw_res.length == 0) {
+      return {
+        objects: [],
+        names: [],
+        edges: [],
+        mapping: [],
+      }
+    }
+    let data = raw_res[0];
+    console.log(searchAddress)
+    let nodes = data.nodes;
+    let paths = data.paths;
+    console.log(paths)
+    const o = [];
+    const e = [];
+    const ns = [];
+    let i = 0;
+    const index_mapping = new Map();
+    for (const node of nodes) {
+      const object = createSphere(node.ContractName ? node.ContractName : node.address);
+      ns.push(node.ContractName ? node.ContractName : node.address)
+      object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 20 - 10);
+      o.push(object);
+      index_mapping[node.address] = i;
+      i++;
+    }
+
+    for (const path of paths) {
+      for (const edge of path.path) {
+        e.push([index_mapping[edge.start_node.address], index_mapping[edge.end_node.address], edge.label])
+      }
+    }
+
+    // this is pretty useless 
+    setObjectNames(ns);
+    setEdgesList(e);
+    setObjectsList(o);
+
+    console.log(e)
+    console.log('a')
+
+    return {
+      objects: o,
+      names: ns,
+      edges: e,
+      mapping: index_mapping,
+    }
+
+  }
+
+  async function updateAdvertisers() {
+    const res = await fetch('https://lg-research-1.uwaterloo.ca/ads' + '?' + new URLSearchParams({
+      address: searchAddress,
+    }), {
+      method: "GET",
+      mode: "cors"
+    })
+    const data = await res.json();
+    console.log(data)
+    setAdvertisements(data);
+  }
+
+
   useEffect(() => {
+    if (marketerSelect) {
+      return;
+    }
+    updateAdvertisers();
+
+  }, [marketerSelect])
+
+  async function renderStuff() {
+    let { objects, names, edges, mapping } = await getNodesEdges(searchAddress, 2);
+    if (!objects) {
+      return;
+    }
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff);
     cameraRef.current = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     rendererRef.current = new THREE.WebGLRenderer({ antialias: true });
     controlsRef.current = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
     rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-    containerRef.current.appendChild(rendererRef.current.domElement);
+    await containerRef.current.appendChild(rendererRef.current.domElement);
+
+
+    const material = new THREE.LineBasicMaterial({ color: 0x000000 });
+
+    for (const o of objects) {
+      scene.add(o)
+    }
+
+    for (const e of edges) {
+      const curve = new THREE.CatmullRomCurve3([objects[e[0]].position, objects[e[1]].position]);
+      const points = curve.getPoints(50);
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const line = new THREE.Line(geometry, material);
+      scene.add(line);
+      const midpoint = objects[e[0]].position.clone().lerp(objects[e[1]].position, 0.5);
+      const label = createLabel(e[2]); // Replace with the actual input string
+      label.position.copy(midpoint);
+      label.lookAt(cameraRef.current.position);
+      scene.add(label);
+    }
+
+    setObjectsList(objects)
+    changeObjectsColor(names)
 
     // Create 10 objects and distribute them randomly
+    /*
     const objects = [];
     for (let i = 0; i < 50; i++) {
       const name = `Object ${i + 1}`;
@@ -94,13 +229,14 @@ const Home = () => {
       object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 20 - 10);
       objects.push(object);
       scene.add(object);
-    }
-    setObjectsList(objects)
+    } */
+
 
     // Connect all objects with lines
+    /*
     const material = new THREE.LineBasicMaterial({ color: 0x000000 });
-    for (let i = 0; i < objects.length/4; i++) {
-      for (let j = i + 1; j < objects.length/4; j++) {
+    for (let i = 0; i < objects.length / 4; i++) {
+      for (let j = i + 1; j < objects.length / 4; j++) {
         const curve = new THREE.CatmullRomCurve3([objects[i].position, objects[j].position]);
         const points = curve.getPoints(50);
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -111,8 +247,8 @@ const Home = () => {
         label.position.copy(midpoint);
         label.lookAt(cameraRef.current.position);
         scene.add(label);
-          }
-        }
+      }
+    } */
 
     cameraRef.current.position.z = 30;
     const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
@@ -145,7 +281,13 @@ const Home = () => {
       containerRef.current.removeChild(rendererRef.current.domElement);
       window.removeEventListener("click", onClick);
     };
-  }, []);
+  }
+
+
+  useEffect(() => {
+    renderStuff();
+
+  }, [showme]);
 
   // return  <div ref={containerRef} />;
   const styles = {
@@ -154,38 +296,196 @@ const Home = () => {
       justifyContent: "space-between",
       alignItems: "center",
       height: "100vh",
+      maxWidth: '100vw'
     },
     leftSection: {
       paddingLeft: "50px",
     },
     rightSection: {
-      flexGrow: 1,
+
     },
+    outer: {
+      display: 'grid',
+      gridTemplateColumns: '1fr',
+      justifyItems: 'center',
+      alignItems: 'center',
+      maxWidth: '100vw'
+    }
   };
 
+
+
   return (
-    <div style={styles.container}>
-      <div style={styles.leftSection}>
-        <h1>Seshat</h1>
-        <h3>Bring personalization to web3</h3>
-        <p>Show me relevant addresses to:</p>
-        <textarea
-          rows="4"
-          cols="50"
-          defaultValue="Airdrop a NFT with this description ..., Playing Axis, Frequency using Audius, ..."
-        />
-        <p>Change color of objects:</p>
-        <input
-          type="text"
-          placeholder="Enter comma-separated names"
-          onChange={(e) => setObjectNames(e.target.value)}
-        />
-        <button onClick={() => changeObjectsColor(objectNames.split(","))}>
-          Change Color
-        </button>
-      </div>
-      <div style={styles.rightSection} ref={containerRef} />
-    </div>
+    <>
+      <Box style={styles.outer}>
+        <NavBar style={{ maxWidth: '100vw' }}></NavBar>
+        <Box>
+          <div style={styles.container}>
+            <div style={styles.leftSection}>
+              <Heading style={{ fontSize: '122px', padding: '20px' }}>Seshat</Heading>
+              <p style={{ fontSize: '25px', padding: '20px' }}>Bring personalization to web3</p>
+              <Box style={{ paddingLeft: '20px' }}>
+
+                <Selector builderSelected={marketerSelect} setBuilderSelected={setMarketerSelect} firstButton='Marketers' secondButton='dApp Developers' />
+              </Box>
+              {marketerSelect ?
+
+                <><p style={{ padding: '20px' }}>Addresses to target for:</p>
+                  <Box style={{ padding: '20px' }}>
+
+                    <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
+                      rows="4"
+                      cols="50"
+                      placeholder="Airdrop a NFT with this description ..., Playing Axis, Frequency using Audius, ..."
+                    />
+                  </Box>
+                </>
+                :
+                <><p style={{ padding: '20px' }}>Request a personalized ad for:</p>
+                  <Box style={{ padding: '20px' }}>
+
+                    <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
+                      rows="4"
+                      cols="50"
+                      placeholder="0x23424234324234923843"
+                    />
+
+                  </Box>
+
+                  <TableContainer>
+                    <Table variant='simple'>
+                      <Thead>
+                        <Tr>
+                          <Th>Name </Th>
+                          <Th>Description</Th>
+                        </Tr>
+                      </Thead>
+                      <Tbody>
+                        {
+                          advertisements.map((ad) => {
+                            return <Tr >
+                                <Td>{ad[0]}</Td>
+                                <Td>{ad[1]}</Td>
+                            </Tr>
+                          })
+                        }
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                </>
+              }
+              <Box style={{ paddingLeft: '20px' }}>
+
+                <Button colorScheme="purple" onClick={() => { setShowme(!showme) }}>Show Me</Button>
+              </Box>
+              <p style={{ padding: '20px' }}>I have my web3 items, how do I personalize them?</p>
+              <Box style={{ paddingLeft: '20px' }}>
+
+                <Button colorScheme="purple">Documentation</Button>
+              </Box>
+
+            </div>
+            <div style={styles.rightSection} ref={containerRef} />
+          </div>
+        </Box>
+        <Box>
+          <Heading>Products</Heading>
+        </Box>
+
+
+
+
+
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+          <Box style={{ padding: '20px' }}>
+            <Card maxW='sm' minH='md'>
+              <CardBody>
+                <Stack mt='6' spacing='20'>
+                  <Heading size='md'>Marketers</Heading>
+                  <Text>
+                    Run on-chain targeted campaigns.
+                  </Text>
+                  <Text>
+                    Expand your ads to blockchain dApps
+                  </Text>
+
+                  <ButtonGroup spacing='2'>
+                    <Button variant='solid' colorScheme='purple'>
+                      Campaign Builder
+                    </Button>
+
+                  </ButtonGroup>
+                </Stack>
+              </CardBody>
+
+
+            </Card>
+          </Box>
+          <Box style={{ padding: '20px' }}>
+            <Card maxW='sm' minH='md'>
+              <CardBody>
+                <Stack mt='6' spacing='20'>
+                  <Heading size='md'>dApp Developers</Heading>
+                  <Text>
+                    Customize your contents based on users
+                  </Text>
+                  <Text>
+                    Request targeted ads for each user
+                  </Text>
+
+                  <ButtonGroup spacing='2'>
+                    <Button variant='solid' colorScheme='purple'>
+                      dApp Personalization
+                    </Button>
+                  </ButtonGroup>
+                </Stack>
+              </CardBody>
+            </Card>
+          </Box>
+        </Box>
+
+
+
+        <SimpleGrid columns={3} spacing={10} columnGap={'20vw'}>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Heading style={{ fontSize: '80px' }}>5+</Heading>
+            <Text>Blockchains</Text>
+          </Box>
+
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Heading style={{ fontSize: '80px' }}>2M+</Heading>
+            <Text>Addresses</Text>
+          </Box>
+
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Heading style={{ fontSize: '80px' }}>10+</Heading>
+            <Text>dApps</Text>
+          </Box>
+
+        </SimpleGrid>
+
+
+        <Box>
+          <Heading>Supporters</Heading>
+        </Box>
+
+        <SimpleGrid columns={3} spacing={10} columnGap={'5vw'}>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Image src="https://uwaterloo.ca/brand/sites/ca.brand/files/styles/body-500px-wide/public/uploads/images/universityofwaterloo_logo_horiz_rgb_1.jpg?itok=1aKXR4xp"></Image>
+          </Box>
+
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Image src="https://uwaterloo.ca/bioengineering-biotechnology/sites/ca.bioengineering-biotechnology/files/uploads/images/velocity-logo_0.jpg"></Image>
+          </Box>
+
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Image src="https://xrpl.org/assets/img/xrp-x-logo.png"></Image>
+          </Box>
+
+        </SimpleGrid>
+
+      </Box>
+    </>
   );
 };
 
