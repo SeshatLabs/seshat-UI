@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from 'crypto';
 
+//TODO: for now we are usng auth0 to handle auth, but in future we can use this entity as well
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   password: String,
