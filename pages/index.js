@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import NavBar from "../components/Header";
+import { Box } from "@chakra-ui/react";
 
 const Home = () => {
   const containerRef = useRef();
@@ -54,7 +56,7 @@ const Home = () => {
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
   };
-  
+
   const createSphere = (name) => {
     const geometry = new THREE.SphereGeometry(0.25, 32, 32);
     const material = new THREE.MeshBasicMaterial({ color: 0x000000 }); // Set the color to white
@@ -99,8 +101,8 @@ const Home = () => {
 
     // Connect all objects with lines
     const material = new THREE.LineBasicMaterial({ color: 0x000000 });
-    for (let i = 0; i < objects.length/4; i++) {
-      for (let j = i + 1; j < objects.length/4; j++) {
+    for (let i = 0; i < objects.length / 4; i++) {
+      for (let j = i + 1; j < objects.length / 4; j++) {
         const curve = new THREE.CatmullRomCurve3([objects[i].position, objects[j].position]);
         const points = curve.getPoints(50);
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -111,8 +113,8 @@ const Home = () => {
         label.position.copy(midpoint);
         label.lookAt(cameraRef.current.position);
         scene.add(label);
-          }
-        }
+      }
+    }
 
     cameraRef.current.position.z = 30;
     const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
@@ -154,6 +156,7 @@ const Home = () => {
       justifyContent: "space-between",
       alignItems: "center",
       height: "100vh",
+      maxWidth: '100vw'
     },
     leftSection: {
       paddingLeft: "50px",
@@ -161,10 +164,22 @@ const Home = () => {
     rightSection: {
       flexGrow: 1,
     },
+    outer: {
+      display: 'grid',
+      gridTemplateColumns: '1fr',
+      justifyItems: 'center',
+      alignItems: 'center',
+      maxWidth: '100vw'
+    }
   };
 
   return (
+    <>
+    <Box style={styles.outer}>
+      <NavBar style={{maxWidth: '100vw'}}></NavBar>
+    
     <div style={styles.container}>
+      
       <div style={styles.leftSection}>
         <h1>Seshat</h1>
         <h3>Bring personalization to web3</h3>
@@ -186,6 +201,8 @@ const Home = () => {
       </div>
       <div style={styles.rightSection} ref={containerRef} />
     </div>
+    </Box>
+    </>
   );
 };
 
