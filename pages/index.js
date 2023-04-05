@@ -299,7 +299,7 @@ const Home = () => {
       maxWidth: '100vw'
     },
     leftSection: {
-      paddingLeft: "50px",
+      paddingLeft: "10px",
     },
     rightSection: {
 
