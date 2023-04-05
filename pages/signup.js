@@ -12,6 +12,8 @@ import {
   AlertDescription,
   Select
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function SignupForm() {
   const [email, setEmail] = useState('');
@@ -21,7 +23,15 @@ export default function SignupForm() {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-    
+  
+  const router = useRouter();
+  const { user } = useUser();
+
+  // Check if user is already authenticated
+  if (user) {
+    router.push('/profile');
+    return null;
+  }
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
