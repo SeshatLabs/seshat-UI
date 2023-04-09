@@ -27,6 +27,7 @@ export default function SignupForm() {
   const router = useRouter();
   const { user } = useUser();
 
+
   // Check if user is already authenticated
   if (user) {
     router.push('/profile');
@@ -36,15 +37,19 @@ export default function SignupForm() {
     setRole(e.target.value);
   };
 
+  const handleLogin = async (event) => {
+    
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const response = await fetch(`https://dev-1g47g0eh5tt1i6xh.us.auth0.com/dbconnections/signup`, {
+    const response = await fetch(process.env.AUTH0_ISSUER_BASE_URL, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          client_id: `Me7EOYWWcUaaskVILJ5prwHr0R4na9yo`,
+          client_id: process.env.AUTH0_CLIENT_ID,
           email,
           password,
           connection: "Username-Password-Authentication",
@@ -54,19 +59,22 @@ export default function SignupForm() {
 
     setIsLoading(false);
     const data = await response.json();
+    console.log(response)
 
     if (response.ok) {
       setIsSuccess(true);
     } else {
       setIsError(true);
       setErrorMessage(data.message);
+      handleLogin(event)
     }
   };
 
   return (
     <center>
         <Box w="full" maxW="md" margin="20">
-        <form onSubmit={handleSubmit}>
+        <p>Please enter the followings, if you don't have an account, it will crate your account, then log you in, otherwise it just log you in.</p>
+        <form>
             {isError && (
             <Alert status="error" mb={4}>
                 <AlertIcon />
