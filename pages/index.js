@@ -99,7 +99,6 @@ const Home = () => {
     const label = new THREE.Mesh(labelGeometry, labelMaterial);
     label.position.set(0, 0.5, 0); // Position the label above the sphere
     sphere.add(label); // Add the label as a child of the sphere
-
     return sphere;
   };
 
@@ -113,7 +112,6 @@ const Home = () => {
     })
 
     let raw_res = await res.json();
-    console.log(raw_res)
     if (raw_res.length == 0) {
       return {
         objects: [],
@@ -123,10 +121,8 @@ const Home = () => {
       }
     }
     let data = raw_res[0];
-    console.log(searchAddress)
     let nodes = data.nodes;
     let paths = data.paths;
-    console.log(paths)
     const o = [];
     const e = [];
     const ns = [];
@@ -152,9 +148,6 @@ const Home = () => {
     setEdgesList(e);
     setObjectsList(o);
 
-    console.log(e)
-    console.log('a')
-
     return {
       objects: o,
       names: ns,
@@ -172,7 +165,6 @@ const Home = () => {
       mode: "cors"
     })
     const data = await res.json();
-    console.log(data)
     setAdvertisements(data);
   }
 
@@ -276,11 +268,11 @@ const Home = () => {
         showPopup(object);
       }
     };
-    window.addEventListener("click", onClick);
+    // window.addEventListener("click", onClick);
 
     return () => {
       containerRef.current.removeChild(rendererRef.current.domElement);
-      window.removeEventListener("click", onClick);
+      // window.removeEventListener("click", onClick);
     };
   }
 
@@ -354,7 +346,7 @@ const Home = () => {
                     <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
                       rows="4"
                       cols="50"
-                      placeholder="0x23424234324234923843"
+                      placeholder="0xe3108157338a6038410d18a2d70f2fe579ca7414"
                     />
 
                   </Box>
