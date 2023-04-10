@@ -11,9 +11,10 @@ import {
   Th,
   Td,
   TableCaption,
-  TableContainer, Box, Heading, Textarea, Button, Card, Stack, CardBody, Divider, CardFooter, ButtonGroup, Image, Text, SimpleGrid
+  TableContainer, Box, Heading, Textarea, Button, Card, Stack, CardBody, Divider, CardFooter, ButtonGroup, Image, Text, SimpleGrid, useBreakpointValue
 } from "@chakra-ui/react";
 import Selector from '../components/Ads/Selector';
+import Header from '../components/Header'
 
 
 const SEARCH_ENDPOINT = 'https://lg-research-1.uwaterloo.ca/search';
@@ -296,13 +297,17 @@ const Home = () => {
       justifyContent: "space-between",
       alignItems: "center",
       height: "100vh",
-      maxWidth: '100vw'
+      maxWidth: '80vw'
     },
     leftSection: {
       paddingLeft: "10px",
+      paddingRight: "10px",
+      maxWidth: '80vw'
     },
     rightSection: {
-
+      paddingLeft: "10px",
+      paddingRight: "10px",
+      maxWidth: '80vw'
     },
     outer: {
       display: 'grid',
@@ -313,12 +318,14 @@ const Home = () => {
     }
   };
 
-
+  const supporterColumnCount = useBreakpointValue({ base: 1, md: 3 }); // Use 1 column on mobile, 3 columns on desktop
+  const productsColumnCount = useBreakpointValue({ base: 1, md: 2 }); // Use 1 column on mobile, 3 columns on desktop
 
   return (
     <>
+    <Header></Header>
       <Box style={styles.outer}>
-        <NavBar style={{ maxWidth: '100vw' }}></NavBar>
+        
         <Box>
           <div style={styles.container}>
             <div style={styles.leftSection}>
@@ -330,7 +337,7 @@ const Home = () => {
               </Box>
               {marketerSelect ?
 
-                <><p style={{ padding: '20px' }}>Addresses to target for:</p>
+                <><p style={{ padding: '20px' }}>Show me Addresses to target for below campaign:</p>
                   <Box style={{ padding: '20px' }}>
 
                     <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
@@ -374,13 +381,13 @@ const Home = () => {
                   </TableContainer>
                 </>
               }
-              <Box style={{ paddingLeft: '20px' }}>
-
+              <Box style={{ paddingLeft: '20px', justifyContent: 'right'}}>
                 <Button colorScheme="purple" onClick={() => { setShowme(!showme) }}>Show Me</Button>
               </Box>
-              <p style={{ padding: '20px' }}>I have my web3 items, how do I personalize them?</p>
-              <Box style={{ paddingLeft: '20px' }}>
 
+              <p style={{ padding: '20px' }}>I have my web3 items, how do I personalize them?</p>
+
+              <Box style={{ paddingLeft: '20px' }}>
               <Button colorScheme="purple" onClick={() => window.open('https://docs.seshatlabs.xyz')}>
                 Documentation
               </Button>
@@ -391,23 +398,19 @@ const Home = () => {
           </div>
         </Box>
         <Box>
-          <Heading>Products</Heading>
+          <Heading style={{ fontSize: '48px', padding: '10px' }}>Products</Heading>
         </Box>
-
-
-
-
 
         <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
           <Box style={{ padding: '20px' }}>
             <Card maxW='sm' minH='md'>
               <CardBody>
-                <Stack mt='6' spacing='20'>
+                <Stack alignItems='center' mt='6' spacing='20'>
                   <Heading size='md'>Marketers</Heading>
-                  <Text>
+                  <Text align={'center'}>
                     Run on-chain targeted campaigns.
                   </Text>
-                  <Text>
+                  <Text align={'center'}>
                     Expand your ads to blockchain dApps
                   </Text>
 
@@ -419,22 +422,19 @@ const Home = () => {
                   </ButtonGroup>
                 </Stack>
               </CardBody>
-
-
             </Card>
           </Box>
           <Box style={{ padding: '20px' }}>
             <Card maxW='sm' minH='md'>
               <CardBody>
-                <Stack mt='6' spacing='20'>
+                <Stack alignItems='center' mt='6' spacing='20'>
                   <Heading size='md'>dApp Developers</Heading>
-                  <Text>
+                  <Text align={'center'}>
                     Customize your contents based on users
                   </Text>
-                  <Text>
+                  <Text align={'center'}>
                     Request targeted ads for each user
                   </Text>
-
                   <ButtonGroup spacing='2'>
                     <Button variant='solid' colorScheme='purple' onClick={() => window.open('https://docs.seshatlabs.xyz')}>
                       dApp Personalization
@@ -446,47 +446,42 @@ const Home = () => {
           </Box>
         </Box>
 
-
-
-        <SimpleGrid columns={3} spacing={10} columnGap={'20vw'}>
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <SimpleGrid columns={supporterColumnCount} spacing={10} columnGap={'10vw'} height='30vh'>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
             <Heading style={{ fontSize: '80px' }}>5+</Heading>
-            <Text>Blockchains</Text>
+            <Text style={{ fontSize: '32px'}} >Blockchains</Text>
           </Box>
 
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
             <Heading style={{ fontSize: '80px' }}>2M+</Heading>
-            <Text>Addresses</Text>
+            <Text style={{ fontSize: '32px'}}>Addresses</Text>
           </Box>
 
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
             <Heading style={{ fontSize: '80px' }}>10+</Heading>
-            <Text>dApps</Text>
+            <Text style={{ fontSize: '32px'}}>DApps</Text>
           </Box>
 
+          {/* <Box>
+            <Heading style={{ fontSize: '48px', padding: '10px' }}>Supporters</Heading>
+          </Box> */}
+
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+            <Image src="https://uwaterloo.ca/brand/sites/ca.brand/files/styles/body-500px-wide/public/uploads/images/universityofwaterloo_logo_horiz_rgb_1.jpg?itok=1aKXR4xp" boxSize="200px" objectFit="contain"></Image>
+          </Box>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+            <Image src="https://uwaterloo.ca/bioengineering-biotechnology/sites/ca.bioengineering-biotechnology/files/uploads/images/velocity-logo_0.jpg" boxSize="200px" objectFit="contain"></Image>
+          </Box>
+          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+            <Image src="https://xrpl.org/assets/img/xrp-x-logo.png" boxSize="100px" objectFit="contain"></Image>
+          </Box>
         </SimpleGrid>
 
-
-        <Box>
-          <Heading>Supporters</Heading>
-        </Box>
-
-        <SimpleGrid columns={3} spacing={10} columnGap={'5vw'}>
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <Image src="https://uwaterloo.ca/brand/sites/ca.brand/files/styles/body-500px-wide/public/uploads/images/universityofwaterloo_logo_horiz_rgb_1.jpg?itok=1aKXR4xp"></Image>
-          </Box>
-
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <Image src="https://uwaterloo.ca/bioengineering-biotechnology/sites/ca.bioengineering-biotechnology/files/uploads/images/velocity-logo_0.jpg"></Image>
-          </Box>
-
-          <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <Image src="https://xrpl.org/assets/img/xrp-x-logo.png"></Image>
-          </Box>
-
-        </SimpleGrid>
-
+        {/* <footer style={{ backgroundColor: '#F5F5F5', padding: '1rem', textAlign: 'center', marginTop: '200px' }}>
+          &copy; 2023 SeshatLabs. All rights reserved.
+        </footer> */}
       </Box>
+      
     </>
   );
 };
