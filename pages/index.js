@@ -264,13 +264,14 @@ const Home = () => {
   async function handleMarketerShowMe () {
     let {nodes} = await getNodesEdges(searchDescription, 5)
     const users = []
-    console.log(nodes)
-    for (const node of nodes) {
-      if (!node.ContractName) {users.push(node.address)}
+    if (nodes) {
+      for (const node of nodes) {
+        if (!node.ContractName) {users.push(node.address)}
+      }
+      //call the changecolor and rerender that
+      changeObjectsColor(users)
     }
-    //call the changecolor and rerender that
     
-    changeObjectsColor(users)
   }
 
   async function handlePublisherShowMe() {
