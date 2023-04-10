@@ -32,12 +32,14 @@ const Home = () => {
   const [names, setNames] = useState([]);
   const [rawData, setRawData] = useState(false);
   const [searchAddress, setSearchAddress] = useState('0xe3108157338a6038410d18a2d70f2fe579ca7414');
+  const [searchDescription, setSearchDescription] = useState('');
   const [showme, setShowme] = useState(false);
-  const [advertisements, setAdvertisements] = useState([]);
+  const [advertisements, setAdvertisements] = useState(false);
 
 
   const changeObjectsColor = (namesList) => {
     namesList.forEach((name, index) => {
+      // console.log(name)
       const object = objectsList.find((obj) => obj.userData.name === name.trim());
       if (object && !object.userData.resized) {
         const intensity = 1 - index / namesList.length;
@@ -102,9 +104,9 @@ const Home = () => {
     return sphere;
   };
 
-  async function getNodesEdges(address, hop) {
+  async function getNodesEdges(query, hop) {
     const res = await fetch(SEARCH_ENDPOINT + '?' + new URLSearchParams({
-      query: address,
+      query: query,
       hop: hop
     }), {
       method: "GET",
@@ -153,29 +155,10 @@ const Home = () => {
       names: ns,
       edges: e,
       mapping: index_mapping,
+      nodes: nodes,
     }
 
   }
-
-  async function updateAdvertisers() {
-    const res = await fetch('https://lg-research-1.uwaterloo.ca/ads' + '?' + new URLSearchParams({
-      address: searchAddress,
-    }), {
-      method: "GET",
-      mode: "cors"
-    })
-    const data = await res.json();
-    setAdvertisements(data);
-  }
-
-
-  useEffect(() => {
-    if (marketerSelect) {
-      return;
-    }
-    updateAdvertisers();
-
-  }, [marketerSelect])
 
   async function renderStuff() {
     let { objects, names, edges, mapping } = await getNodesEdges(searchAddress, 2);
@@ -211,7 +194,6 @@ const Home = () => {
     }
 
     setObjectsList(objects)
-    changeObjectsColor(names)
 
     // Create 10 objects and distribute them randomly
     /*
@@ -269,18 +251,38 @@ const Home = () => {
       }
     };
     // window.addEventListener("click", onClick);
-
     return () => {
       containerRef.current.removeChild(rendererRef.current.domElement);
       // window.removeEventListener("click", onClick);
     };
   }
 
-
   useEffect(() => {
     renderStuff();
-
   },[]);
+
+  async function handleMarketerShowMe () {
+    let {nodes} = await getNodesEdges(searchDescription, 5)
+    const users = []
+    console.log(nodes)
+    for (const node of nodes) {
+      if (!node.ContractName) {users.push(node.address)}
+    }
+    //call the changecolor and rerender that
+    
+    changeObjectsColor(users)
+  }
+
+  async function handlePublisherShowMe() {
+    const res = await fetch('https://lg-research-1.uwaterloo.ca/ads' + '?' + new URLSearchParams({
+      address: searchAddress,
+    }), {
+      method: "GET",
+      mode: "cors"
+    })
+    const data = await res.json();
+    setAdvertisements(data);
+  }
 
   // return  <div ref={containerRef} />;
   const styles = {
@@ -299,7 +301,7 @@ const Home = () => {
     rightSection: {
       paddingLeft: "10px",
       paddingRight: "10px",
-      maxWidth: '80vw'
+      Width: '10px'
     },
     outer: {
       display: 'grid',
@@ -329,29 +331,37 @@ const Home = () => {
               </Box>
               {marketerSelect ?
 
-                <><p style={{ padding: '20px' }}>Show me Addresses to target for below campaign:</p>
+                <>
+                <p style={{ padding: '20px' }}>Show me Addresses to target for below campaign:</p>
                   <Box style={{ padding: '20px' }}>
 
-                    <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
+                    <Textarea onChange={(e) => { setSearchDescription(e.target.value) }}
                       rows="4"
                       cols="50"
                       placeholder="Airdrop a NFT with this description ..., Playing Axis, Frequency using Audius, ..."
                     />
                   </Box>
+                  <Box style={{ paddingLeft: '20px', justifyContent: 'right'}}>
+                    <Button colorScheme="purple" onClick={() => { handleMarketerShowMe() }}>Show Me</Button>
+                  </Box>
                 </>
                 :
-                <><p style={{ padding: '20px' }}>Request a personalized ad for:</p>
-                  <Box style={{ padding: '20px' }}>
-
+                <>
+                <p style={{ padding: '20px' }}>Request a personalized ad for:</p>
+                  <Box style={{ padding: '20px'}}>
                     <Textarea onChange={(e) => { setSearchAddress(e.target.value) }}
                       rows="4"
                       cols="50"
                       placeholder="0xe3108157338a6038410d18a2d70f2fe579ca7414"
                     />
-
                   </Box>
 
-                  <TableContainer>
+                  <Box style={{ paddingLeft: '20px', justifyContent: 'right'}}>
+                    <Button colorScheme="purple" onClick={() => { handlePublisherShowMe() }}>Show Me</Button>
+                  </Box>
+
+                  {advertisements &&
+                  <TableContainer paddingTop={'20px'} textAlign='left' style={{ maxWidth: '100%' }}>
                     <Table variant='simple'>
                       <Thead>
                         <Tr>
@@ -371,11 +381,9 @@ const Home = () => {
                       </Tbody>
                     </Table>
                   </TableContainer>
+                  }
                 </>
               }
-              <Box style={{ paddingLeft: '20px', justifyContent: 'right'}}>
-                <Button colorScheme="purple" onClick={() => { setShowme(!showme) }}>Show Me</Button>
-              </Box>
 
               <p style={{ padding: '20px' }}>I have my web3 items, how do I personalize them?</p>
 
