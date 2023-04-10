@@ -381,7 +381,9 @@ const Home = () => {
               <p style={{ padding: '20px' }}>I have my web3 items, how do I personalize them?</p>
               <Box style={{ paddingLeft: '20px' }}>
 
-                <Button colorScheme="purple">Documentation</Button>
+              <Button colorScheme="purple" onClick={() => window.open('https://docs.seshatlabs.xyz')}>
+                Documentation
+              </Button>
               </Box>
 
             </div>
@@ -410,7 +412,7 @@ const Home = () => {
                   </Text>
 
                   <ButtonGroup spacing='2'>
-                    <Button variant='solid' colorScheme='purple'>
+                    <Button variant='solid' colorScheme='purple' onClick={() => window.open('https://www.seshatlabs.xyz/ads')}>
                       Campaign Builder
                     </Button>
 
@@ -434,7 +436,7 @@ const Home = () => {
                   </Text>
 
                   <ButtonGroup spacing='2'>
-                    <Button variant='solid' colorScheme='purple'>
+                    <Button variant='solid' colorScheme='purple' onClick={() => window.open('https://docs.seshatlabs.xyz')}>
                       dApp Personalization
                     </Button>
                   </ButtonGroup>
