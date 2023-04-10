@@ -280,7 +280,7 @@ const Home = () => {
   useEffect(() => {
     renderStuff();
 
-  }, [showme]);
+  },[]);
 
   // return  <div ref={containerRef} />;
   const styles = {
