@@ -11,6 +11,7 @@ import {
   Th,
   Td,
   TableCaption,
+  useMediaQuery,
   TableContainer, Box, Heading, Textarea, Button, Card, Stack, CardBody, Divider, CardFooter, ButtonGroup, Image, Text, SimpleGrid, useBreakpointValue
 } from "@chakra-ui/react";
 import Selector from '../components/Ads/Selector';
@@ -35,6 +36,8 @@ const Home = () => {
   const [searchDescription, setSearchDescription] = useState('');
   const [showme, setShowme] = useState(false);
   const [advertisements, setAdvertisements] = useState(false);
+  const supporterColumnCount = useBreakpointValue({ base: 1, md: 3 }); // Use 1 column on mobile, 3 columns on desktop
+  const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
 
   const changeObjectsColor = (namesList) => {
@@ -195,36 +198,6 @@ const Home = () => {
 
     setObjectsList(objects)
 
-    // Create 10 objects and distribute them randomly
-    /*
-    const objects = [];
-    for (let i = 0; i < 50; i++) {
-      const name = `Object ${i + 1}`;
-      const object = createSphere(name);
-      object.position.set(Math.random() * 20 - 10, Math.random() * 20 - 10, Math.random() * 20 - 10);
-      objects.push(object);
-      scene.add(object);
-    } */
-
-
-    // Connect all objects with lines
-    /*
-    const material = new THREE.LineBasicMaterial({ color: 0x000000 });
-    for (let i = 0; i < objects.length / 4; i++) {
-      for (let j = i + 1; j < objects.length / 4; j++) {
-        const curve = new THREE.CatmullRomCurve3([objects[i].position, objects[j].position]);
-        const points = curve.getPoints(50);
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(geometry, material);
-        scene.add(line);
-        const midpoint = objects[i].position.clone().lerp(objects[j].position, 0.5);
-        const label = createLabel("Edge label"); // Replace with the actual input string
-        label.position.copy(midpoint);
-        label.lookAt(cameraRef.current.position);
-        scene.add(label);
-      }
-    } */
-
     cameraRef.current.position.z = 30;
     const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
     controls.enableDamping = true;
@@ -313,7 +286,7 @@ const Home = () => {
     }
   };
 
-  const supporterColumnCount = useBreakpointValue({ base: 1, md: 3 }); // Use 1 column on mobile, 3 columns on desktop
+
   const productsColumnCount = useBreakpointValue({ base: 1, md: 2 }); // Use 1 column on mobile, 3 columns on desktop
 
   return (
@@ -395,7 +368,9 @@ const Home = () => {
               </Box>
 
             </div>
-            <div style={styles.rightSection} ref={containerRef} />
+            {isDesktop && (
+                <div style={styles.rightSection} ref={containerRef}/>
+              )}
           </div>
         </Box>
         <Box>
