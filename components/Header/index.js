@@ -63,7 +63,7 @@ import {
           justify={'space-between'}
         >
           <Box>
-          <Link href="https://www.seshatlabs.xyz" isExternal>
+          <Link href="/">
             <Text fontSize="lg" fontWeight="bold" paddingLeft={{base: '0', md: '100px'}}> 
               Seshat Labs
             </Text>
