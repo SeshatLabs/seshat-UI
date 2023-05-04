@@ -6,9 +6,7 @@ import {
     Link,
     useDisclosure,
     useColorModeValue,
-    Stack,
     Text,
-    Button,
     VStack,
   } from '@chakra-ui/react';
   import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
@@ -63,7 +61,7 @@ import {
           justify={'space-between'}
         >
           <Box>
-          <Link href="https://www.seshatlabs.xyz" isExternal>
+          <Link href="/">
             <Text fontSize="lg" fontWeight="bold" paddingLeft={{base: '0', md: '100px'}}> 
               Seshat Labs
             </Text>
