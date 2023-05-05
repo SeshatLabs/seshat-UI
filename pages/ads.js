@@ -5,25 +5,25 @@ import Selector from '../components/Ads/Selector';
 import Builder from '../components/Ads/Builder';
 import Explainer from '../components/Ads/Explainer';
 import { useState } from 'react';
-import {Box} from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 
 export default function Ads() {
     const [builderSelected, setBuilderSelected] = useState(true);
     return (
         <div className={styles.container}>
             <Head>
-                <title>SocialBlock - Ads</title>
-                <meta name="description" content="" />
+                <title>Seshat - Ads</title>
+                <meta name="description" contesnt="" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header></Header>
+            <Header />
             <div className={styles.main}>
-                <Selector builderSelected={builderSelected} setBuilderSelected={setBuilderSelected}/>
+                <Selector builderSelected={builderSelected} setBuilderSelected={setBuilderSelected} />
                 <div className={styles.adSection}>
-                <Box my='10' mx='auto' maxW='1600px'>
-                    <Builder builderSelected={builderSelected}/> 
-                    <Explainer builderSelected={builderSelected}/>
-                </Box>
+                    <Box my='10' mx='auto' maxW='1600px'>
+                        <Builder builderSelected={builderSelected} />
+                        <Explainer builderSelected={builderSelected} />
+                    </Box>
                 </div>
             </div>
         </div>
