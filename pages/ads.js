@@ -13,7 +13,7 @@ export default function Ads() {
         <div className={styles.container}>
             <Head>
                 <title>Seshat - Ads</title>
-                <meta name="description" contesnt="" />
+                <meta name="description" content="" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header />
