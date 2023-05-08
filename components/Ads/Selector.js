@@ -5,10 +5,10 @@ export default function Selector({ builderSelected, setBuilderSelected }) {
     return <div>
         <Box my="10">
             <Button className={styles.selectorButtonLeft} colorScheme={builderSelected ? 'purple' : 'gray'} onClick={() => { setBuilderSelected(true) }}>
-                {'Build Campaign'}
+                {'Marketer Zone'}
             </Button>
             <Button className={styles.selectorButtonRight} colorScheme={builderSelected ? 'gray' : 'purple'} onClick={() => { setBuilderSelected(false) }}>
-                {'Explain Campaign'}
+                {'Publisher Zone'}
             </Button>
         </Box>
     </div>
