@@ -1,9 +1,9 @@
 import styles from './builder.module.css';
-import { Text, Box, Select, FormLabel, FormControl, Textarea, Input, Button} from "@chakra-ui/react";
+import { Text, Box, Select, FormLabel, FormControl, Textarea, Input, Button } from "@chakra-ui/react";
 import { useState, useRef } from 'react'
-const CURRENT_ADVERTISER = 'test';
 
-export default function CampaignBuilder() {
+
+export default function CampaignBuilder({ user_sid }) {
     const [mode, setMode] = useState('simple');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -47,7 +47,7 @@ export default function CampaignBuilder() {
         formData.append('title', title)
         formData.append('description', description)
         formData.append('duration', parseInt(duration))
-        formData.append('advertiser', CURRENT_ADVERTISER)
+        formData.append('advertiser', user_sid)
 
         const floatBudget = parseFloat(budget);
         if (isNaN(floatBudget)) {

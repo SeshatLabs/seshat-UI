@@ -3,7 +3,7 @@ import styles from './builder.module.css';
 import { useState, useEffect } from 'react'
 import axios from "axios";
 
-export default function CampaignHistory() {
+export default function CampaignHistory({ user_sid }) {
     const [prevCampaigns, setPrevCampaigns] = useState([]);
     const [selectedCampaign, setSelectedCampaign] = useState(undefined);
 
@@ -14,12 +14,11 @@ export default function CampaignHistory() {
             setSelectedCampaign(campaign)
         }
     }
-    // TODO: Filter out all campaigns that are not user
+
     async function getPrevCampaigns() {
         const campaigns = await axios.get('/api/get_campaign');
-        console.log(campaigns.data.data)
-        console.log(campaigns["data"])
-        setPrevCampaigns([...campaigns.data.data]);
+        const userCampaigns = campaigns.data.data.filter(campaign => campaign.advertiser === user_sid);
+        setPrevCampaigns([...userCampaigns]);
     }
 
     useEffect(() => {

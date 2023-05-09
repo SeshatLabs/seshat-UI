@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
 const campaignSchema = new mongoose.Schema({
-    media: Buffer,
-    description: String,
     advertiser: String,
-    mode: String,
-    title: String,
     budget: Number,
+    description: String,
+    lastStatusChange: Date,
+    media: Buffer,
+    mode: String,
     runningStatus: Boolean,
     timeRemaining: Number,
-    lastStatusChange: Date
+    title: String,
 })
 
 export default mongoose.models.Campaign || mongoose.model('Campaign', campaignSchema);

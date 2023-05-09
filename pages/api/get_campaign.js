@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     switch (method) {
         case 'GET':
             try {
+                // TODO: Find campaign by advertiser field
                 const campaigns = await Campaign.find().limit(10);
                 res.status(200).json({ success: true, data: campaigns})
             } catch (error) {

@@ -21,8 +21,8 @@ export default function Builder({ builderSelected }) {
     if (user) {
         return (
             <Box className={`${styles.builder} ${builderSelected ? '' : styles.noDisplay}`}>
-                <CampaignBuilder />
-                <CampaignHistory />
+                <CampaignBuilder user_sid={user.sid} />
+                <CampaignHistory user_sid={user.sid} />
             </Box>
         );
     }
