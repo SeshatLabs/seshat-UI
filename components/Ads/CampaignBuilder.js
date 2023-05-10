@@ -11,6 +11,7 @@ export default function CampaignBuilder({ user_sid }) {
     const [budget, setBudget] = useState('');
     const inputRef = useRef();
     const [files, setFiles] = useState([]);
+    const [showDetails, setShowDetails] = useState(false);
 
     const handleOnFileChange = (e) => {
         console.log(e.target.files);
@@ -60,6 +61,13 @@ export default function CampaignBuilder({ user_sid }) {
         for (const e of formData.entries()) { console.log(e) }
         axios.post('/api/create_campaign', formData)
     }
+
+    const handleUploadAdClick = () => {
+        inputRef.current.click();
+        setShowDetails(true);
+    }
+
+
     return (
         <Box className={styles.row}>
             <Box className={styles.section}>
@@ -100,39 +108,42 @@ export default function CampaignBuilder({ user_sid }) {
                 </FormControl>
                 <Box className={styles.row}>
                     <Box className={styles.bottom}>
-                        <Button variant='outline' colorScheme='purple' onClick={() => { inputRef.current.click() }}>Upload Media</Button>
+                        <Button variant='outline' colorScheme='purple' onClick={handleUploadAdClick}>Upload Ad</Button>
                     </Box>
                 </Box>
 
             </Box>
-            <Box className={styles.section}>
-                <Box className={styles.row}>
-                    <Text fontSize='3xl'>2. Details</Text>
-                </Box>
-                <FormControl className={styles.makeflex}>
-                    <Box className={styles.section}>
-                        <FormLabel>Duration</FormLabel>
-                        <Box className={styles.textin}>
-                            <Select className={styles.textin} onChange={handleDurationChange} >
-                                <option value='30'>30 Days</option>
-                                <option value='60'>60 Days</option>
-                            </Select>
-                        </Box>
+            {showDetails ?
+                <Box className={styles.section}>
+                    <Box className={styles.row}>
+                        <Text fontSize='3xl'>2. Details</Text>
                     </Box>
-                    <Box className={styles.section}>
-                        <FormLabel>Budget</FormLabel>
-                        <Box className={styles.textin}>
-                            <Input className={styles.textin} placeholder='$' onChange={handleBudgetChange} />
+                    <FormControl className={styles.makeflex}>
+                        <Box className={styles.section}>
+                            <FormLabel>Duration</FormLabel>
+                            <Box className={styles.textin}>
+                                <Select className={styles.textin} onChange={handleDurationChange} >
+                                    <option value='30'>30 Days</option>
+                                    <option value='60'>60 Days</option>
+                                </Select>
+                            </Box>
                         </Box>
-                    </Box>
-                </FormControl>
+                        <Box className={styles.section}>
+                            <FormLabel>Budget</FormLabel>
+                            <Box className={styles.textin}>
+                                <Input className={styles.textin} placeholder='$' onChange={handleBudgetChange} />
+                            </Box>
+                        </Box>
+                    </FormControl>
 
-                <Box className={`${styles.row} ${styles.fill}`}>
-                    <Box className={` ${styles.bottom}`}>
-                        <Button variant='outline' colorScheme='purple' onClick={handleCampaignOnClick}>Run Campaign</Button>
+                    <Box className={`${styles.row} ${styles.fill}`}>
+                        <Box className={` ${styles.bottom}`}>
+                            <Button variant='outline' colorScheme='purple' onClick={handleCampaignOnClick}>Run Campaign</Button>
+                        </Box>
                     </Box>
-                </Box>
-            </Box>
+                </Box> :
+                <></>
+            }
         </Box>
     );
 }
