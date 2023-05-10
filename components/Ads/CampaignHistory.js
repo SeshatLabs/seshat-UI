@@ -16,7 +16,11 @@ export default function CampaignHistory({ user_sid }) {
     }
 
     async function getPrevCampaigns() {
-        const campaigns = await axios.get('/api/get_campaign');
+        const campaigns = await axios.get('/api/get_campaign', {
+            params: {
+                user_sid: user_sid
+            }
+        });
         const userCampaigns = campaigns.data.data.filter(campaign => campaign.advertiser === user_sid);
         setPrevCampaigns([...userCampaigns]);
     }
