@@ -55,7 +55,7 @@ export default function CampaignBuilder({ user_sid }) {
 
         const floatBudget = parseFloat(budget);
         if (isNaN(floatBudget)) {
-            console.log('invalid budget');
+            alert('Invalid budget');
             return;
         }
 
