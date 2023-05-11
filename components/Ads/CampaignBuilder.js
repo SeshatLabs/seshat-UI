@@ -1,5 +1,5 @@
 import styles from './builder.module.css';
-import { Text, Box, Select, FormLabel, FormControl, Textarea, Input, Button } from "@chakra-ui/react";
+import { Text, Box, Select, FormLabel, FormControl, Textarea, Input, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import { useState, useRef } from 'react'
 import axios from "axios";
 
@@ -8,10 +8,13 @@ export default function CampaignBuilder({ user_sid }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [duration, setDuration] = useState('30');
-    const [budget, setBudget] = useState('');
+    const [budget, setBudget] = useState('0');
     const inputRef = useRef();
     const [files, setFiles] = useState([]);
     const [showDetails, setShowDetails] = useState(false);
+
+    const formatBudget = (val) => `$` + val
+    const parseBudget = (val) => val.replace(/^\$/, '')
 
     const handleOnFileChange = (e) => {
         console.log(e.target.files);
@@ -34,8 +37,8 @@ export default function CampaignBuilder({ user_sid }) {
         setDuration(e.target.value)
     }
 
-    const handleBudgetChange = (e) => {
-        setBudget(e.target.value)
+    const handleBudgetChange = (budgetString) => {
+        setBudget(parseBudget(budgetString));
     }
 
     const handleCampaignOnClick = () => {
@@ -131,7 +134,14 @@ export default function CampaignBuilder({ user_sid }) {
                         <Box className={styles.section}>
                             <FormLabel>Budget</FormLabel>
                             <Box className={styles.textin}>
-                                <Input className={styles.textin} placeholder='$' onChange={handleBudgetChange} />
+                                <NumberInput
+                                    defaultValue={0}
+                                    min={0}
+                                    onChange={handleBudgetChange}
+                                    value={formatBudget(budget)}
+                                >
+                                    <NumberInputField />
+                                </NumberInput>
                             </Box>
                         </Box>
                     </FormControl>
