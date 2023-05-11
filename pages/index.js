@@ -352,8 +352,6 @@ const Home = () => {
             <Selector
               builderSelected={marketerSelect}
               setBuilderSelected={setMarketerSelect}
-              firstButton="Marketers"
-              secondButton="dApp Developers"
             />
           </Box>
           {marketerSelect ? (
