@@ -19,6 +19,7 @@ export default function CampaignBuilder({ user_sid }) {
     const handleOnFileChange = (e) => {
         console.log(e.target.files);
         setFiles([...e.target.files].filter((fileObj) => fileObj.size < 2097152 && fileObj.type.startsWith('image')));
+        alert("All the content below 2 MB in size has been uploaded succesfully");
     }
 
     const handleModeChange = (e) => {
@@ -62,7 +63,8 @@ export default function CampaignBuilder({ user_sid }) {
         formData.append('budget', floatBudget)
 
         for (const e of formData.entries()) { console.log(e) }
-        axios.post('/api/create_campaign', formData)
+        axios.post('/api/create_campaign', formData);
+        alert("Campaign has been successfully created. Please reload the page to see your advertisement");
     }
 
     const handleUploadAdClick = () => {
