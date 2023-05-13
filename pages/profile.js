@@ -14,16 +14,30 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Header from "../components/Header";
+import { useEffect } from "react";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
+
+  useEffect(() => {
+    // TODO: Make async function. Configure Callback URL to be this page.
+    function createUser(user) {
+      if (user) {
+        console.log("User is created");
+        console.log(user);
+      } else {
+        console.log("User it not defined");
+      }
+    }
+    createUser(user);
+  }, [user]); // <-- here put the parameter to listen
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.message === undefined ? 'Invalid user credentials. Please contact Seshat support' : error.message}</div>;
   }
 
   if (user) {
@@ -67,9 +81,7 @@ function UserProfile() {
           or login into your account.
         </Text>
         <Link as={NextLink} href="/api/auth/login">
-          <Button as="a" colorScheme="blue">
-            Login
-          </Button>
+          <Button colorScheme="blue">Login</Button>
         </Link>
       </Container>
     </>
