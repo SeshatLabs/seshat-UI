@@ -71,12 +71,7 @@ export default function CampaignBuilder({ userID }) {
         inputRef.current.click();
         setShowDetails(true);
     }
-<<<<<<< HEAD
-
-
-=======
     
->>>>>>> 466d3be (Change user_sid parameters to userID and userID is now persistent throughout logins/logouts)
     return (
         <Box className={styles.row}>
             <Box className={styles.section}>

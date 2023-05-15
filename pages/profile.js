@@ -15,31 +15,38 @@ import {
 } from "@chakra-ui/react";
 import Header from "../components/Header";
 import { useEffect } from "react";
+import axios from "axios";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
-    // TODO: Make async function. Configure Callback URL to be this page.
-    function createUser(user) {
-      if (user) {
-        console.log("User is created");
-        console.log(user);
-      } else {
-        console.log("User it not defined");
-      }
+    async function createUser(user) {
+      await axios.post("/api/create_user", user);
     }
-    createUser(user);
-  }, [user]); // <-- here put the parameter to listen
+    if (user) {
+      createUser(user);
+      console.log("User has been created");
+    } else {
+      console.log("User is not defined");
+    }
+  }, [user]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message === undefined ? 'Invalid user credentials. Please contact Seshat support' : error.message}</div>;
+    return (
+      <div>
+        Error:{" "}
+        {error.message === undefined
+          ? "Invalid user credentials. Please contact Seshat support"
+          : error.message}
+      </div>
+    );
   }
-
+  
   if (user) {
     return (
       <>
@@ -49,11 +56,11 @@ function UserProfile() {
             <Heading size="xl">Welcome, {user.name}!</Heading>
             <Text mt={4} fontSize="lg">
               Your Marketer API Key:{" "}
-              {user["https://seshatlabs.xyz/marketer_api_key"]}
+              {user.seshat_API_keys.marketerAPIKey}
             </Text>
             <Text mt={4} fontSize="lg">
               Your Publisher/DApp Developer API Key:{" "}
-              {user["https://seshatlabs.xyz/publisher_api_key"]}
+              {user.seshat_API_keys.publisherAPIKey}
             </Text>
             <Spacer mt={6} />
             <Menu>
