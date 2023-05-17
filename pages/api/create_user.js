@@ -3,7 +3,7 @@ import { dbConnect } from "../../data-engine/ETL/helper/mongohelper";
 
 const saveUser = async (user) => {
   const { user_id } = user;
-  const newUser = new User({ userID: user_id });
+  const newUser = new User({ userID: user_id, revenue: 0 });
 
   await newUser.save();
   return newUser;
