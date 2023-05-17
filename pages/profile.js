@@ -32,7 +32,7 @@ function UserProfile() {
       </div>
     );
   }
-  
+
   if (user) {
     return (
       <>
@@ -41,8 +41,7 @@ function UserProfile() {
           <Box p={5} borderWidth="1px" borderRadius="lg">
             <Heading size="xl">Welcome, {user.name}!</Heading>
             <Text mt={4} fontSize="lg">
-              Your Marketer API Key:{" "}
-              {user.seshat_API_keys.marketerAPIKey}
+              Your Marketer API Key: {user.seshat_API_keys.marketerAPIKey}
             </Text>
             <Text mt={4} fontSize="lg">
               Your Publisher/DApp Developer API Key:{" "}
