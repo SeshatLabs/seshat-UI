@@ -1,10 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import NextLink from "next/link";
-import { Link } from "@chakra-ui/react";
 import {
   Button,
   Box,
   Text,
+  Link,
   Heading,
   Container,
   Spacer,
@@ -14,23 +14,9 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Header from "../components/Header";
-import { useEffect } from "react";
-import axios from "axios";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
-
-  useEffect(() => {
-    async function createUser(user) {
-      await axios.post("/api/create_user", user);
-    }
-    if (user) {
-      createUser(user);
-      console.log("User has been created");
-    } else {
-      console.log("User is not defined");
-    }
-  }, [user]);
 
   if (isLoading) {
     return <div>Loading...</div>;
