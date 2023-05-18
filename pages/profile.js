@@ -4,7 +4,6 @@ import {
   Button,
   Box,
   Text,
-  Link,
   Heading,
   Container,
   Spacer,
@@ -14,6 +13,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Header from "../components/Header";
+import Login from "../components/Utilities/Login";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
@@ -67,15 +67,7 @@ function UserProfile() {
   return (
     <>
       <Header />
-      <Container maxW="xl" mt={80} textAlign="center">
-        <Text fontSize="xl" mb={4}>
-          You are not logged in, please hit the continue to create a new account
-          or login into your account.
-        </Text>
-        <Link as={NextLink} href="/api/auth/login">
-          <Button colorScheme="blue">Login</Button>
-        </Link>
-      </Container>
+      <Login />
     </>
   );
 }
