@@ -1,5 +1,5 @@
+import { Button, Container, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { Button, Text, Link, Container } from "@chakra-ui/react";
 
 export default function Login() {
   return (
