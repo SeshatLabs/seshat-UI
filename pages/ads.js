@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
 import Selector from '../components/Ads/Selector';
 import Builder from '../components/Ads/Builder';
-import Explainer from '../components/Ads/Explainer';
+import PublisherDashboard from '../components/Ads/PublisherDashboard';
 import { useState } from 'react';
 import { Box } from "@chakra-ui/react"
 
@@ -22,7 +22,7 @@ export default function Ads() {
                 <div className={styles.adSection}>
                     <Box my='10' mx='auto' maxW='1600px'>
                         <Builder builderSelected={builderSelected} />
-                        <Explainer builderSelected={builderSelected} />
+                        <PublisherDashboard builderSelected={builderSelected} />
                     </Box>
                 </div>
             </div>
