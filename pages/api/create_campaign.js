@@ -15,6 +15,7 @@ const saveCampaign = async (fields, file) => {
   const timeRemaining = duration;
   const runningStatus = true;
   const lastStatusChange = Date.now();
+
   const media = fs.readFileSync(file.filepath);
   const campaign = new Campaign({
     media,
@@ -44,7 +45,6 @@ const saveCampaign = async (fields, file) => {
 
 export default async function handler(req, res) {
   const form = new formidable.IncomingForm();
-  form.uploadDir = "./";
   form.keepExtensions = true;
   dbConnect();
   const { method } = req;
@@ -59,19 +59,18 @@ export default async function handler(req, res) {
   switch (method) {
     case "POST":
       try {
-        const formPromise = await new Promise((resolve, reject) => {
+        const data = await new Promise((resolve, reject) => {
           form.parse(req, async function (err, fields, files) {
             console.log(err, fields, files);
             if (err) {
-              reject(err);
+              return reject(err);
             }
-
-            await saveCampaign(fields, files.files);
-
-            resolve({ success: true });
+            resolve({ fields, files });
           });
         });
-        res.status(201).json(formPromise);
+
+        await saveCampaign(data.fields, data.files.files);
+        res.status(201).json({ success: true });
       } catch (error) {
         res.status(400).json({ success: false, data: error });
       }
