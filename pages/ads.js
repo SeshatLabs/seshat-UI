@@ -68,7 +68,10 @@ export default function Ads() {
           <div className={styles.adSection}>
             <Box my="10" mx="auto" maxW="1600px">
               <Builder builderSelected={builderSelected} user={user} />
-              <PublisherDashboard builderSelected={builderSelected} />
+              <PublisherDashboard
+                builderSelected={builderSelected}
+                user={user}
+              />
             </Box>
           </div>
         </div>
