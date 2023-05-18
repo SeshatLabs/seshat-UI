@@ -9,11 +9,11 @@ export const config = {
 export default async function handler(req, res) {
     dbConnect();
     const { method } = req;
-    const { user_sid } = req.query;
+    const { userID } = req.query;
     switch (method) {
         case 'GET':
             try {
-                const campaigns = await Campaign.find({ advertiser: user_sid }).limit(10);
+                const campaigns = await Campaign.find({ advertiser: userID }).limit(10);
                 res.status(200).json({ success: true, data: campaigns })
             } catch (error) {
                 res.status(400).json({ success: false, data: error })

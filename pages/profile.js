@@ -1,8 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
+import NextLink from "next/link";
 import {
   Button,
   Box,
   Text,
+  Link,
   Heading,
   Container,
   Spacer,
@@ -12,28 +14,23 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import Header from "../components/Header";
-import { useRouter } from "next/router";
-import axios from "axios";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
-  const router = useRouter();
-
-  const logout = async () => {
-    try {
-      await axios.post("/api/auth/logout");
-      router.push("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div>
+        Error:{" "}
+        {error.message === undefined
+          ? "Invalid user credentials. Please contact Seshat support"
+          : error.message}
+      </div>
+    );
   }
 
   if (user) {
@@ -56,7 +53,9 @@ function UserProfile() {
                 Account
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={logout}>Logout</MenuItem>
+                <MenuItem as={NextLink} href="/api/auth/logout">
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           </Box>
@@ -73,12 +72,9 @@ function UserProfile() {
           You are not logged in, please hit the continue to create a new account
           or login into your account.
         </Text>
-        <Button
-          colorScheme="blue"
-          onClick={() => router.push("/api/auth/login")}
-        >
-          Login
-        </Button>
+        <Link as={NextLink} href="/api/auth/login">
+          <Button colorScheme="blue">Login</Button>
+        </Link>
       </Container>
     </>
   );

@@ -3,7 +3,7 @@ import styles from './builder.module.css';
 import { useState, useEffect } from 'react'
 import axios from "axios";
 
-export default function CampaignHistory({ user_sid }) {
+export default function CampaignHistory({ userID }) {
     const [prevCampaigns, setPrevCampaigns] = useState([]);
     const [selectedCampaign, setSelectedCampaign] = useState(undefined);
 
@@ -18,11 +18,10 @@ export default function CampaignHistory({ user_sid }) {
     async function getPrevCampaigns() {
         const campaigns = await axios.get('/api/get_campaign', {
             params: {
-                user_sid: user_sid
+                userID: userID
             }
         });
-        const userCampaigns = campaigns.data.data.filter(campaign => campaign.advertiser === user_sid);
-        setPrevCampaigns([...userCampaigns]);
+        setPrevCampaigns([...campaigns.data.data]);
     }
 
     useEffect(() => {

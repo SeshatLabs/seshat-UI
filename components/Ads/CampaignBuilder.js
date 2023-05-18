@@ -3,7 +3,7 @@ import { Text, Box, Select, FormLabel, FormControl, Textarea, Input, Button, Num
 import { useState, useRef } from 'react'
 import axios from "axios";
 
-export default function CampaignBuilder({ user_sid }) {
+export default function CampaignBuilder({ userID }) {
     const [mode, setMode] = useState('simple');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -52,7 +52,7 @@ export default function CampaignBuilder({ user_sid }) {
         formData.append('title', title)
         formData.append('description', description)
         formData.append('duration', parseInt(duration))
-        formData.append('advertiser', user_sid)
+        formData.append('advertiser', userID)
 
         const floatBudget = parseFloat(budget);
         if (isNaN(floatBudget)) {
@@ -71,8 +71,7 @@ export default function CampaignBuilder({ user_sid }) {
         inputRef.current.click();
         setShowDetails(true);
     }
-
-
+    
     return (
         <Box className={styles.row}>
             <Box className={styles.section}>
