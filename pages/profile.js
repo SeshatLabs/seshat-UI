@@ -1,22 +1,27 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
-import NextLink from "next/link";
 import {
-  Button,
   Box,
-  Text,
-  Heading,
+  Button,
   Container,
-  Spacer,
+  Heading,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
+  MenuList,
+  Spacer,
+  Text,
+  Flex,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { useMetaMask } from "../hooks/useMetaMask";
 import Header from "../components/Header";
+import { MetaMaskConnector } from "../components/Profile/MetaMaskConnector";
+import { MetaMaskWalletInfo } from "../components/Profile/MetaMaskWalletInfo";
 import Login from "../components/Utilities/Login";
 
 function UserProfile() {
   const { user, error, isLoading } = useUser();
+  const { wallet, hasProvider } = useMetaMask();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -37,7 +42,7 @@ function UserProfile() {
     return (
       <>
         <Header />
-        <Container maxW="xl" mt={20}>
+        <Container maxW="3xl" mt={20}>
           <Box p={5} borderWidth="1px" borderRadius="lg">
             <Heading size="xl">Welcome, {user.name}!</Heading>
             <Text mt={4} fontSize="lg">
@@ -47,6 +52,22 @@ function UserProfile() {
               Your Publisher/DApp Developer API Key:{" "}
               {user.seshat_API_keys.publisherAPIKey}
             </Text>
+
+            <Spacer mt={4} />
+
+            {hasProvider && wallet.accounts.length > 0 ? (
+              <MetaMaskWalletInfo />
+            ) : (
+              <>
+                <Text fontSize="lg">
+                  Add Wallet: To create an actual campaign you need to deposit
+                  fund, or to withdraw your revenue as a publisher
+                </Text>
+                <Spacer mt={4} />
+                <MetaMaskConnector />
+              </>
+            )}
+
             <Spacer mt={6} />
             <Menu>
               <MenuButton as={Button} colorScheme="blue">
