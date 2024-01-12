@@ -348,12 +348,12 @@ const Home = () => {
         >
           <Heading fontSize="120px">Seshat</Heading>
           <Text fontSize="24px">Bringing Predictive Features to the Web3 Infrastructure</Text>
-          <Box>
+          {/* <Box>
             <Selector
               builderSelected={marketerSelect}
               setBuilderSelected={setMarketerSelect}
             />
-          </Box>
+          </Box> */}
           {/* {marketerSelect ? (
             <>
               <Text marginY="16px">
