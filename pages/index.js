@@ -347,14 +347,14 @@ const Home = () => {
           width={{ xs: "100vw", md: "80vw" }}
         >
           <Heading fontSize="120px">Seshat</Heading>
-          <Text fontSize="24px">Bring personalization to web3</Text>
+          <Text fontSize="24px">Bringing Predictive Features to the Web3 Infrastructure</Text>
           <Box>
             <Selector
               builderSelected={marketerSelect}
               setBuilderSelected={setMarketerSelect}
             />
           </Box>
-          {marketerSelect ? (
+          {/* {marketerSelect ? (
             <>
               <Text marginY="16px">
                 Show me Addresses to target for below campaign:
@@ -430,7 +430,7 @@ const Home = () => {
 
           <Text marginY="20px">
             I have my web3 items, how do I personalize them?
-          </Text>
+          </Text> */}
 
           <Button
             colorScheme="purple"
@@ -448,7 +448,7 @@ const Home = () => {
           </Heading>
         </Box> */}
 
-        <Flex
+        {/* <Flex
           flexDirection={{ base: "column", md: "row" }}
           alignItems="stretch"
           justifyContent={{ base: "center", md: "space-between" }}
@@ -506,7 +506,7 @@ const Home = () => {
               </CardBody>
             </Card>
           </Flex>
-        </Flex>
+        </Flex> */}
 
         <Flex
           flexDirection="column"
@@ -534,7 +534,7 @@ const Home = () => {
             <Heading style={{ fontSize: '48px', padding: '10px' }}>Supporters</Heading>
           </Box> */}
 
-          <Flex flexDirection={{ base: "column", md: "row" }}>
+          {/* <Flex flexDirection={{ base: "column", md: "row" }}>
             <Flex alignItems="center" justifyContent="center" height="20vh">
               <Image
                 src="https://uwaterloo.ca/brand/sites/ca.brand/files/styles/body-500px-wide/public/uploads/images/universityofwaterloo_logo_horiz_rgb_1.jpg?itok=1aKXR4xp"
@@ -556,7 +556,7 @@ const Home = () => {
                 objectFit="contain"
               />
             </Flex>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         {/* <footer style={{ backgroundColor: '#F5F5F5', padding: '1rem', textAlign: 'center', marginTop: '200px' }}>
