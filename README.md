@@ -9,3 +9,4 @@ For now to interact with the graph interactive module you just need to visit soc
 
     npm i
     npm run dev
+
