@@ -33,6 +33,7 @@ import {
 import Selector from "../components/Ads/Selector";
 import Header from "../components/Header";
 
+// TODO: change the end point accordingly
 const SEARCH_ENDPOINT = "https://lg-research-1.uwaterloo.ca/search";
 
 const Home = () => {

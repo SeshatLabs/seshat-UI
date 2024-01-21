@@ -16,7 +16,8 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 
 const navItems = [
-  { label: "Products", page: "/ads", isExternal: false },
+  { label: "Query", page: "/query-dashboard", isExternal: false },
+  { label: "Campaign", page: "/ads", isExternal: false },
   { label: "Docs", page: "https://docs.seshatlabs.xyz", isExternal: true },
 ];
 
@@ -85,7 +86,7 @@ const Navbar = () => {
         </Flex>
         <Spacer />
         <Link as={NextLink} href="/profile">
-          <Button variant="outline" colorScheme="blue">
+          <Button variant="outline" colorScheme="purple">
             {user ? "Profile" : "Let's start"}
           </Button>
         </Link>
