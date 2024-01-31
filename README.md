@@ -10,3 +10,11 @@ For now to interact with the graph interactive module you just need to visit soc
     npm i
     npm run dev
 
+# TODO:
+- Add the dataset page
+    - Showing each dataset card
+    - Hiting each card, being able to download the CSV
+    - Showe a preview of dataset (.head())
+- Add the models page
+    - Showing each uploaded model card
+    - Hiting each card, being able to run the model for an input (show the input guide)
